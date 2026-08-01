@@ -1,0 +1,48 @@
+﻿<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>学生学业状态分析与预警系统</title>
+    <!-- ECharts CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/echarts@5/dist/echarts.min.js"></script>
+    <link rel="stylesheet" href="/static/css/style.css">
+</head>
+<body>
+    <header class="topbar">
+        <h1>学生学业状态分析与预警系统</h1>
+        <span id="health-status" class="badge">检测中...</span>
+    </header>
+
+    <main class="container">
+        <section class="card">
+            <h2>专注度趋势</h2>
+            <div id="attention-chart" class="chart"></div>
+        </section>
+
+        <section class="card">
+            <h2>疲劳度趋势</h2>
+            <div id="fatigue-chart" class="chart"></div>
+        </section>
+
+        <section class="card">
+            <h2>最新状态</h2>
+            <table id="state-table">
+                <thead>
+                    <tr>
+                        <th>时间</th>
+                        <th>专注度</th>
+                        <th>疲劳度</th>
+                        <th>PERCLOS</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr><td colspan="4">暂无数据</td></tr>
+                </tbody>
+            </table>
+        </section>
+    </main>
+
+    <script src="/static/js/app.js"></script>
+</body>
+</html>

@@ -1,0 +1,21 @@
+﻿# 摄像头与视觉采集配置
+camera:
+  index: 0
+  width: 1280
+  height: 720
+  fps: 30
+  flip: false
+  auto_reconnect: true
+  reconnect_interval: 2.0
+
+face_detection:
+  model_selection: 0
+  min_detection_confidence: 0.5
+  max_faces: 10
+
+mediapipe:
+  static_image_mode: false
+  refine_landmarks: true
+  max_num_faces: 10
+  min_detection_confidence: 0.5
+  min_tracking_confidence: 0.5

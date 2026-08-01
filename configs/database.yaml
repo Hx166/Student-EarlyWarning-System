@@ -1,0 +1,12 @@
+﻿# 数据库配置
+database:
+  url: "sqlite:///./data/early_warning.db"
+  echo: false
+  foreign_keys: true
+
+frame_record:
+  enabled: true
+
+state_aggregation:
+  window_seconds: 60
+  update_interval: 1.0
