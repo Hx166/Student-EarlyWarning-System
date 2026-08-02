@@ -2,6 +2,10 @@
 
 将人脸检测、眼部状态、头部姿态、疲劳与参与度分析等
 子模块组合为统一的视觉处理流水线。
+
+本模块负责创建唯一的 MediaPipeProcessor 实例，
+并通过依赖注入共享给 FaceDetector、EyeEarProcessor、HeadPoseEstimator，
+避免多个模块重复初始化模型引擎。
 """
 
 from __future__ import annotations
@@ -18,6 +22,7 @@ from src.core.models import (
     FatigueResult,
     HeadPoseResult,
 )
+from src.cv.mediapipe import MediaPipeProcessor
 from src.cv.face.detector import FaceDetector
 from src.cv.eye.eye_ear import EyeEarProcessor
 from src.cv.pose.head_pose import HeadPoseEstimator
@@ -67,6 +72,7 @@ class CVProcessor:
     对外仅暴露 process 接口。
 
     Attributes:
+        mediapipe: 共享的 MediaPipe 关键点检测处理器（单实例）。
         face_detector: 人脸检测器。
         eye_processor: 眼部状态处理器。
         head_pose_estimator: 头部姿态估计器。
@@ -76,12 +82,14 @@ class CVProcessor:
 
     def __init__(self) -> None:
         """初始化视觉处理流水线及各子模块。"""
-        self.face_detector = FaceDetector()
-        self.eye_processor = EyeEarProcessor()
-        self.head_pose_estimator = HeadPoseEstimator()
+        # 创建唯一 MediaPipe 单实例并注入各视觉模块
+        self.mediapipe = MediaPipeProcessor()
+        self.face_detector = FaceDetector(mediapipe=self.mediapipe)
+        self.eye_processor = EyeEarProcessor(mediapipe=self.mediapipe)
+        self.head_pose_estimator = HeadPoseEstimator(mediapipe=self.mediapipe)
         self.fatigue_analyzer = FatigueAnalyzer()
         self.engagement_analyzer = EngagementAnalyzer()
-        logger.info("CVProcessor 初始化完成")
+        logger.info("CVProcessor 初始化完成，MediaPipe 单实例已共享")
 
     def process(self, frame: np.ndarray) -> CVProcessResult:
         """处理单帧图像并返回完整视觉分析结果。
@@ -92,15 +100,31 @@ class CVProcessor:
         Returns:
             聚合的视觉处理结果对象。
         """
+        # 1. 人脸检测（MediaPipe Face Mesh）
         faces = self.face_detector.detect(frame)
-        eye = self.eye_processor.analyze(frame=frame)
-        head_pose = self.head_pose_estimator.estimate(frame=frame)
+
+        # 2. 使用第一张人脸的关键点进行眼部与头部姿态分析
+        if faces:
+            primary_face = faces[0]
+            landmarks = primary_face
+        else:
+            landmarks = None
+
+        eye = self.eye_processor.analyze(
+            landmarks=landmarks, frame=frame
+        )
+        head_pose = self.head_pose_estimator.estimate(
+            landmarks=landmarks, frame=frame
+        )
+
+        # 3. 疲劳与参与度分析
         fatigue = self.fatigue_analyzer.analyze(
             eye_state=eye, head_pose=head_pose
         )
         engagement = self.engagement_analyzer.analyze(
             eye_state=eye, head_pose=head_pose, fatigue=fatigue
         )
+
         return CVProcessResult(
             faces=faces,
             eye=eye,
@@ -111,5 +135,7 @@ class CVProcessor:
 
     def close(self) -> None:
         """释放所有视觉子模块资源。"""
+        # FaceDetector 为共享实例，关闭时由其统一释放 MediaPipe
         self.face_detector.close()
+        self.mediapipe.close()
         logger.info("CVProcessor 已关闭")

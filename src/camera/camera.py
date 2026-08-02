@@ -65,7 +65,7 @@ class Camera:
         self._current_fps: float = 0.0
         self._lock = threading.Lock()
 
-    def open(self) -> None:
+    def open(self) -> "Camera":
         """打开摄像头连接。
 
         Raises:
@@ -85,6 +85,8 @@ class Camera:
         self._capture.set(cv2.CAP_PROP_FRAME_HEIGHT, self.height)
         self._capture.set(cv2.CAP_PROP_FPS, self.fps)
         logger.info("摄像头已打开: index=%s", self.index)
+        logger.info("摄像头已打开: index=%s", self.index)
+        return self
 
     def read(self) -> Optional[Frame]:
         """读取一帧视频数据。

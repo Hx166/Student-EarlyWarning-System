@@ -172,15 +172,17 @@ class HeadPoseResult:
         pitch: 俯仰角（度）。
         yaw: 偏航角（度）。
         roll: 翻滚角（度）。
+        pose_status: 姿态分类（Normal/LookDown/LookLeft/LookRight/Tilt）。
         confidence: 可信度。
     """
 
     pitch: float = 0.0
     yaw: float = 0.0
     roll: float = 0.0
+    pose_status: str = "Normal"
     confidence: float = 0.0
 
-    def to_dict(self) -> Dict[str, float]:
+    def to_dict(self) -> Dict[str, Any]:
         """转换为可序列化字典。
 
         Returns:
@@ -190,6 +192,7 @@ class HeadPoseResult:
             "pitch": self.pitch,
             "yaw": self.yaw,
             "roll": self.roll,
+            "pose_status": self.pose_status,
             "confidence": self.confidence,
         }
 

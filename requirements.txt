@@ -1,5 +1,5 @@
-opencv-python
-mediapipe
+﻿opencv-python
+mediapipe==0.10.14  # 第二阶段实现依赖 mp.solutions API（0.10.x），避免升级到 1.0 tasks API 导致的接口不兼容
 numpy
 pandas
 xgboost
