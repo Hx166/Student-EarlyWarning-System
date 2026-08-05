@@ -26180,3 +26180,13 @@
 2026-08-02 19:30:22 | INFO     | src.camera.camera | 摄像头已关闭
 2026-08-02 19:30:22 | INFO     | src.service.pipeline | 主流程资源已释放
 2026-08-02 19:30:22 | INFO     | src.database.service | 数据库连接已关闭
+2026-08-05 17:24:54 | INFO     | src.cv.mediapipe.processor | MediaPipe 引擎初始化完成，max_faces=10
+2026-08-05 17:24:54 | INFO     | src.cv.face.detector | FaceDetector 已初始化，max_faces=10
+2026-08-05 17:24:54 | INFO     | src.cv.eye.eye_ear | EyeEarProcessor 已初始化，阈值=0.2
+2026-08-05 17:24:54 | INFO     | src.cv.pose.head_pose | HeadPoseEstimator 已初始化
+2026-08-05 17:24:54 | INFO     | src.cv.behavior.fatigue | FatigueAnalyzer 已初始化
+2026-08-05 17:24:54 | INFO     | src.cv.emotion.engagement | EngagementAnalyzer 已初始化
+2026-08-05 17:24:54 | INFO     | src.cv.processor | CVProcessor 初始化完成，MediaPipe 单实例已共享
+2026-08-05 17:24:58 | INFO     | src.camera.camera | 摄像头已打开: index=0
+2026-08-05 17:24:58 | INFO     | src.camera.camera | 摄像头已打开: index=0
+2026-08-05 17:24:58 | INFO     | __main__ | 实时 Demo 已启动，按 q 或 Esc 退出
