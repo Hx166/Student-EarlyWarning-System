@@ -18,7 +18,7 @@
 
 当前项目采用迭代开发模式。
 
-## V0.1（当前目标）
+## V0.1（第一阶段–第三阶段已完成）
 
 完成一个能够运行、演示的课堂行为分析系统，实现：
 
@@ -193,16 +193,16 @@ Student-EarlyWarning-System
 
 | 模块                  | 功能      |
 | ------------------- | ------- |
-| Camera              | 摄像头采集   |
+| Camera    | ✅ 已完成  |
 | Face Detection      | 人脸检测    |
-| MediaPipe           | 关键点提取   |
+| MediaPipe | ✅ 已完成  |
 | EyeEAR              | 闭眼检测    |
 | HeadPose            | 头部姿态估计  |
 | Fatigue             | 疲劳分析    |
 | Engagement          | 课堂参与度分析 |
 | Feature Engineering | 特征工程    |
-| XGBoost             | 风险预测    |
-| Dashboard           | 数据可视化   |
+| XGBoost   | ⏳ 待开发（第四阶段） |
+| Dashboard | ✅ 已完成  |
 
 ---
 
@@ -215,11 +215,11 @@ Student-EarlyWarning-System
 | 数据库设计     | ✅ 已完成  |
 | CV 模块设计   | ✅ 已完成  |
 | AI 模块设计   | ✅ 已完成  |
-| 项目框架      | 🚧 开发中 |
-| Camera    | ⏳ 待开发  |
-| MediaPipe | ⏳ 待开发  |
-| Dashboard | ⏳ 待开发  |
-| XGBoost   | ⏳ 待开发  |
+| 项目框架      | ✅ 已完成  |
+| Camera    | ✅ 已完成  |
+| MediaPipe | ✅ 已完成  |
+| Dashboard | ✅ 已完成  |
+| XGBoost   | ⏳ 待开发（第四阶段） |
 
 ---
 
@@ -406,6 +406,52 @@ docs/09-项目管理/成员分工.md
 ```
 
 ---
+
+---
+
+# 当前完成情况
+
+第一阶段–第三阶段已完成：
+
+* 第一阶段：项目框架（Scaffold）完成，Camera/CV/Database/API/Dashboard/Config/Logger 框架可运行。
+* 第二阶段：CV 模块完成（Camera、FaceDetection、MediaPipe、EyeEAR、HeadPose），视觉数据实时产生。
+* 第三阶段：课堂状态分析完成（Fatigue、Engagement、SQLite 持久化、Flask API、Dashboard 实时展示）。
+
+---
+
+# 已实现模块
+
+| 模块 | 状态 |
+|------|------|
+| Camera | ✅ |
+| FaceDetection | ✅ |
+| MediaPipe（468 关键点 + Pose） | ✅ |
+| EyeEAR（EAR/眨眼/PERCLOS） | ✅ |
+| HeadPose（Pitch/Yaw/Roll） | ✅ |
+| Fatigue（疲劳评分/等级） | ✅ |
+| Engagement（参与度评分/等级） | ✅ |
+| SQLite（FrameRecord/StateRecord/WarningLog） | ✅ |
+| Flask API（/state /warnings /behaviors /frames） | ✅ |
+| Dashboard（ECharts 实时看板） | ✅ |
+
+---
+
+# 已知限制
+
+* 学业风险预测（XGBoost）、模型训练与评估属第四阶段，尚未开发。
+* Fatigue 的哈欠（Yawn/MAR）特征尚未接入融合。
+* 多人/多摄像头同步、MySQL/InfluxDB、用户权限系统属后期计划。
+* Dashboard 依赖 ECharts CDN，离线/内网环境需配置本地资源。
+* 实时 FPS 为前端基于状态记录时间间隔估算，非后端精确框速。
+
+---
+
+# 下一阶段计划（第四阶段：机器学习）
+
+* Feature Engineering：基于视觉特征构建训练数据。
+* XGBoost 学业风险预测与风险评分。
+* 模型训练与评估（Evaluation）。
+* 后续：SHAP 可解释性、LSTM 时间序列预测。
 
 # License
 

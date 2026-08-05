@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="zh-CN">
 <head>
     <meta charset="UTF-8">
@@ -15,6 +15,37 @@
     </header>
 
     <main class="container">
+        <section class="card metrics-card">
+            <h2>实时指标</h2>
+            <div class="metrics-grid">
+                <div class="metric"><label>FPS</label><span id="m-fps">--</span></div>
+                <div class="metric"><label>EAR</label><span id="m-ear">--</span></div>
+                <div class="metric"><label>PERCLOS</label><span id="m-perclos">--</span></div>
+                <div class="metric"><label>Pitch</label><span id="m-pitch">--</span></div>
+                <div class="metric"><label>Yaw</label><span id="m-yaw">--</span></div>
+                <div class="metric"><label>Roll</label><span id="m-roll">--</span></div>
+                <div class="metric"><label>疲劳</label><span id="m-fatigue">--</span></div>
+                <div class="metric"><label>参与度</label><span id="m-engagement">--</span></div>
+            </div>
+        </section>
+
+        <section class="card warning-card">
+            <h2>风险预警</h2>
+            <table id="warning-table">
+                <thead>
+                    <tr>
+                        <th>时间</th>
+                        <th>类型</th>
+                        <th>等级</th>
+                        <th>原因</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr><td colspan="4">暂无预警</td></tr>
+                </tbody>
+            </table>
+        </section>
+
         <section class="card">
             <h2>专注度趋势</h2>
             <div id="attention-chart" class="chart"></div>
@@ -26,18 +57,22 @@
         </section>
 
         <section class="card">
-            <h2>最新状态</h2>
+            <h2>数据库最新记录</h2>
             <table id="state-table">
                 <thead>
                     <tr>
                         <th>时间</th>
+                        <th>EAR</th>
+                        <th>PERCLOS</th>
+                        <th>Pitch</th>
+                        <th>Yaw</th>
+                        <th>Roll</th>
                         <th>专注度</th>
                         <th>疲劳度</th>
-                        <th>PERCLOS</th>
                     </tr>
                 </thead>
                 <tbody>
-                    <tr><td colspan="4">暂无数据</td></tr>
+                    <tr><td colspan="8">暂无数据</td></tr>
                 </tbody>
             </table>
         </section>

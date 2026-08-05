@@ -66,17 +66,18 @@ def _setup_components():
     return db, camera, cv, pipeline
 
 
-def _run_flask(host: str, port: int, debug: bool):
+def _run_flask(host: str, port: int, debug: bool, database=None):
     """启动 Flask API 服务。
 
     Args:
         host: 监听地址。
         port: 监听端口。
         debug: 是否开启调试模式。
+        database: 可选数据库服务，注入 Flask 供查询接口使用。
     """
     from src.api import create_app
 
-    app = create_app()
+    app = create_app(database=database)
     logger.info("Flask 服务启动于 %s:%s", host, port)
     app.run(host=host, port=port, debug=debug)
 
@@ -95,8 +96,14 @@ def main() -> None:
 
     if args.api_only:
         logger.info("以 API-only 模式启动")
-        _run_flask(server.get("host", "0.0.0.0"), server.get("port", 5000),
-                   server.get("debug", False))
+        from src.database import DatabaseService
+
+        db = DatabaseService().connect()
+        try:
+            _run_flask(server.get("host", "0.0.0.0"), server.get("port", 5000),
+                       server.get("debug", False), database=db)
+        finally:
+            db.close()
         return
 
     db, camera, cv, pipeline = _setup_components()
@@ -105,7 +112,7 @@ def main() -> None:
     flask_thread = threading.Thread(
         target=_run_flask,
         args=(server.get("host", "0.0.0.0"), server.get("port", 5000),
-              server.get("debug", False)),
+              server.get("debug", False), db),
         daemon=True,
     )
     flask_thread.start()

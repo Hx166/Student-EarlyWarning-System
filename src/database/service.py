@@ -366,6 +366,75 @@ class DatabaseService:
         cursor.execute(query, params)
         return [dict(row) for row in cursor.fetchall()]
 
+    def query_frame_records(
+        self, student_id: Optional[int] = None, limit: int = 100
+    ) -> List[Dict[str, Any]]:
+        """\u67e5\u8be2\u539f\u59cb\u5e27\u89c6\u89c9\u6570\u636e\u3002
+
+        Args:
+            student_id: \u5b66\u751f ID \u8fc7\u6ee4\u6761\u4ef6\uff0cNone \u8868\u793a\u6240\u6709\u5b66\u751f\u3002
+            limit: \u8fd4\u56de\u8bb0\u5f55\u6761\u6570\u4e0a\u9650\u3002
+
+        Returns:
+            \u5e27\u8bb0\u5f55\u5b57\u5178\u5217\u8868\u3002
+        """
+        query = "SELECT * FROM FrameRecord"
+        params: List[Any] = []
+        if student_id is not None:
+            query += " WHERE student_id = ?"
+            params.append(student_id)
+        query += " ORDER BY frame_time DESC LIMIT ?"
+        params.append(limit)
+        cursor = self.conn.cursor()
+        cursor.execute(query, params)
+        return [dict(row) for row in cursor.fetchall()]
+
+    def query_behavior_records(
+        self, student_id: Optional[int] = None, limit: int = 100
+    ) -> List[Dict[str, Any]]:
+        """\u67e5\u8be2\u884c\u4e3a\u4e8b\u4ef6\u8bb0\u5f55\u3002
+
+        Args:
+            student_id: \u5b66\u751f ID \u8fc7\u6ee4\u6761\u4ef6\uff0cNone \u8868\u793a\u6240\u6709\u5b66\u751f\u3002
+            limit: \u8fd4\u56de\u8bb0\u5f55\u6761\u6570\u4e0a\u9650\u3002
+
+        Returns:
+            \u884c\u4e3a\u8bb0\u5f55\u5b57\u5178\u5217\u8868\u3002
+        """
+        query = "SELECT * FROM BehaviorRecord"
+        params: List[Any] = []
+        if student_id is not None:
+            query += " WHERE student_id = ?"
+            params.append(student_id)
+        query += " ORDER BY start_time DESC LIMIT ?"
+        params.append(limit)
+        cursor = self.conn.cursor()
+        cursor.execute(query, params)
+        return [dict(row) for row in cursor.fetchall()]
+
+    def query_warning_records(
+        self, student_id: Optional[int] = None, limit: int = 100
+    ) -> List[Dict[str, Any]]:
+        """\u67e5\u8be2\u98ce\u9669\u9884\u8b66\u8bb0\u5f55\u3002
+
+        Args:
+            student_id: \u5b66\u751f ID \u8fc7\u6ee4\u6761\u4ef6\uff0cNone \u8868\u793a\u6240\u6709\u5b66\u751f\u3002
+            limit: \u8fd4\u56de\u8bb0\u5f55\u6761\u6570\u4e0a\u9650\u3002
+
+        Returns:
+            \u9884\u8b66\u8bb0\u5f55\u5b57\u5178\u5217\u8868\u3002
+        """
+        query = "SELECT * FROM WarningLog"
+        params: List[Any] = []
+        if student_id is not None:
+            query += " WHERE student_id = ?"
+            params.append(student_id)
+        query += " ORDER BY create_time DESC LIMIT ?"
+        params.append(limit)
+        cursor = self.conn.cursor()
+        cursor.execute(query, params)
+        return [dict(row) for row in cursor.fetchall()]
+
     def set_config(self, key: str, value: str) -> None:
         """写入系统配置键值。
 

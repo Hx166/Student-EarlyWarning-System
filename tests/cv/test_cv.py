@@ -28,11 +28,13 @@ class CVProcessorTest(unittest.TestCase):
         clear_cache()
 
     def test_process_empty_frame(self):
-        """空帧处理不崩溃并返回默认结果。"""
+        """空帧处理不崩溃并返回合法评分。"""
         import numpy as np
         result = self.processor.process(np.zeros((480, 640, 3), dtype=np.uint8))
         self.assertIsNotNone(result.engagement)
-        self.assertEqual(result.engagement.engagement_score, 80.0)
+        # 第三阶段已实现真实加权评分，空帧应返回 0~100 区间内的合法评分
+        self.assertGreaterEqual(result.engagement.engagement_score, 0.0)
+        self.assertLessEqual(result.engagement.engagement_score, 100.0)
 
     def test_default_results_types(self):
         """各结果对象类型正确。"""

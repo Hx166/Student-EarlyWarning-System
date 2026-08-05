@@ -26190,3 +26190,207 @@
 2026-08-05 17:24:58 | INFO     | src.camera.camera | 摄像头已打开: index=0
 2026-08-05 17:24:58 | INFO     | src.camera.camera | 摄像头已打开: index=0
 2026-08-05 17:24:58 | INFO     | __main__ | 实时 Demo 已启动，按 q 或 Esc 退出
+2026-08-05 18:06:07 | INFO     | src.database.service | 数据库连接成功: D:\Student-EarlyWarning-System\Student-EarlyWarning-System\./data/early_warning.db
+2026-08-05 18:06:10 | INFO     | src.camera.camera | 摄像头已打开: index=0
+2026-08-05 18:06:10 | INFO     | src.camera.camera | 摄像头已打开: index=0
+2026-08-05 18:06:10 | INFO     | src.cv.mediapipe.processor | MediaPipe 引擎初始化完成，max_faces=10
+2026-08-05 18:06:10 | INFO     | src.cv.face.detector | FaceDetector 已初始化，max_faces=10
+2026-08-05 18:06:10 | INFO     | src.cv.eye.eye_ear | EyeEarProcessor 已初始化，阈值=0.2
+2026-08-05 18:06:10 | INFO     | src.cv.pose.head_pose | HeadPoseEstimator 已初始化
+2026-08-05 18:06:10 | INFO     | src.cv.behavior.fatigue | 疲劳评估器已初始化，窗口=60.0秒
+2026-08-05 18:06:10 | INFO     | src.cv.emotion.engagement | EngagementAnalyzer 已初始化
+2026-08-05 18:06:10 | INFO     | src.cv.processor | CVProcessor 初始化完成，MediaPipe 单实例已共享
+2026-08-05 18:06:10 | INFO     | __main__ | Flask 服务后台线程已启动
+2026-08-05 18:06:10 | INFO     | src.service.pipeline | 主流程开始运行
+2026-08-05 18:06:10 | INFO     | src.api.app | Flask 应用创建完成
+2026-08-05 18:06:10 | INFO     | __main__ | Flask 服务启动于 0.0.0.0:5000
+2026-08-05 18:06:11 | INFO     | werkzeug | [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5000
+ * Running on http://10.98.0.17:5000
+2026-08-05 18:06:11 | INFO     | werkzeug | [33mPress CTRL+C to quit[0m
+2026-08-05 18:06:52 | INFO     | werkzeug | 127.0.0.1 - - [05/Aug/2026 18:06:52] "GET / HTTP/1.1" 200 -
+2026-08-05 18:06:52 | INFO     | werkzeug | 127.0.0.1 - - [05/Aug/2026 18:06:52] "[36mGET /static/css/style.css HTTP/1.1[0m" 304 -
+2026-08-05 18:06:53 | INFO     | werkzeug | 127.0.0.1 - - [05/Aug/2026 18:06:53] "[36mGET /static/js/app.js HTTP/1.1[0m" 304 -
+2026-08-05 18:06:53 | INFO     | werkzeug | 127.0.0.1 - - [05/Aug/2026 18:06:53] "GET /api/state?limit=50 HTTP/1.1" 200 -
+2026-08-05 18:06:53 | INFO     | werkzeug | 127.0.0.1 - - [05/Aug/2026 18:06:53] "[33mGET /favicon.ico HTTP/1.1[0m" 404 -
+2026-08-05 18:06:55 | INFO     | werkzeug | 127.0.0.1 - - [05/Aug/2026 18:06:55] "GET /api/state?limit=50 HTTP/1.1" 200 -
+2026-08-05 18:06:57 | INFO     | werkzeug | 127.0.0.1 - - [05/Aug/2026 18:06:57] "GET /api/state?limit=50 HTTP/1.1" 200 -
+2026-08-05 18:06:59 | INFO     | werkzeug | 127.0.0.1 - - [05/Aug/2026 18:06:59] "GET /api/state?limit=50 HTTP/1.1" 200 -
+2026-08-05 18:07:11 | INFO     | werkzeug | 127.0.0.1 - - [05/Aug/2026 18:07:11] "GET / HTTP/1.1" 200 -
+2026-08-05 18:07:11 | INFO     | werkzeug | 127.0.0.1 - - [05/Aug/2026 18:07:11] "[36mGET /static/css/style.css HTTP/1.1[0m" 304 -
+2026-08-05 18:07:11 | INFO     | werkzeug | 127.0.0.1 - - [05/Aug/2026 18:07:11] "[36mGET /static/js/app.js HTTP/1.1[0m" 304 -
+2026-08-05 18:07:11 | INFO     | werkzeug | 127.0.0.1 - - [05/Aug/2026 18:07:11] "GET /api/state?limit=50 HTTP/1.1" 200 -
+2026-08-05 18:07:17 | INFO     | __main__ | 收到中断信号，正在退出...
+2026-08-05 18:07:17 | INFO     | src.cv.face.detector | FaceDetector 已关闭
+2026-08-05 18:07:17 | INFO     | src.cv.mediapipe.processor | MediaPipe 处理器已关闭
+2026-08-05 18:07:17 | INFO     | src.cv.processor | CVProcessor 已关闭
+2026-08-05 18:07:17 | INFO     | src.camera.camera | 摄像头已关闭
+2026-08-05 18:07:17 | INFO     | src.service.pipeline | 主流程资源已释放
+2026-08-05 18:07:17 | INFO     | src.database.service | 数据库连接已关闭
+2026-08-05 18:13:03 | INFO     | src.database.service | 数据库连接成功: D:\Student-EarlyWarning-System\Student-EarlyWarning-System\./data/early_warning.db
+2026-08-05 18:13:07 | INFO     | src.camera.camera | 摄像头已打开: index=0
+2026-08-05 18:13:07 | INFO     | src.camera.camera | 摄像头已打开: index=0
+2026-08-05 18:13:07 | INFO     | src.cv.mediapipe.processor | MediaPipe 引擎初始化完成，max_faces=10
+2026-08-05 18:13:07 | INFO     | src.cv.face.detector | FaceDetector 已初始化，max_faces=10
+2026-08-05 18:13:07 | INFO     | src.cv.eye.eye_ear | EyeEarProcessor 已初始化，阈值=0.2
+2026-08-05 18:13:07 | INFO     | src.cv.pose.head_pose | HeadPoseEstimator 已初始化
+2026-08-05 18:13:07 | INFO     | src.cv.behavior.fatigue | 疲劳评估器已初始化，窗口=60.0秒
+2026-08-05 18:13:07 | INFO     | src.cv.emotion.engagement | EngagementAnalyzer 已初始化
+2026-08-05 18:13:07 | INFO     | src.cv.processor | CVProcessor 初始化完成，MediaPipe 单实例已共享
+2026-08-05 18:13:07 | INFO     | __main__ | Flask 服务后台线程已启动
+2026-08-05 18:13:07 | INFO     | src.service.pipeline | 主流程开始运行
+2026-08-05 18:13:07 | INFO     | src.api.app | Flask 应用创建完成
+2026-08-05 18:13:07 | INFO     | __main__ | Flask 服务启动于 0.0.0.0:5000
+2026-08-05 18:13:07 | INFO     | werkzeug | [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5000
+ * Running on http://10.98.0.17:5000
+2026-08-05 18:13:07 | INFO     | werkzeug | [33mPress CTRL+C to quit[0m
+2026-08-05 18:13:18 | INFO     | werkzeug | 127.0.0.1 - - [05/Aug/2026 18:13:18] "GET / HTTP/1.1" 200 -
+2026-08-05 18:13:18 | INFO     | werkzeug | 127.0.0.1 - - [05/Aug/2026 18:13:18] "[36mGET /static/js/app.js HTTP/1.1[0m" 304 -
+2026-08-05 18:13:18 | INFO     | werkzeug | 127.0.0.1 - - [05/Aug/2026 18:13:18] "[36mGET /static/css/style.css HTTP/1.1[0m" 304 -
+2026-08-05 18:13:18 | INFO     | werkzeug | 127.0.0.1 - - [05/Aug/2026 18:13:18] "GET /api/state?limit=50 HTTP/1.1" 200 -
+2026-08-05 18:13:18 | INFO     | werkzeug | 127.0.0.1 - - [05/Aug/2026 18:13:18] "[33mGET /favicon.ico HTTP/1.1[0m" 404 -
+2026-08-05 18:13:20 | INFO     | werkzeug | 127.0.0.1 - - [05/Aug/2026 18:13:20] "GET /api/state?limit=50 HTTP/1.1" 200 -
+2026-08-05 18:13:22 | INFO     | werkzeug | 127.0.0.1 - - [05/Aug/2026 18:13:22] "GET /api/state?limit=50 HTTP/1.1" 200 -
+2026-08-05 18:13:24 | INFO     | werkzeug | 127.0.0.1 - - [05/Aug/2026 18:13:24] "GET /api/state?limit=50 HTTP/1.1" 200 -
+2026-08-05 18:13:26 | INFO     | werkzeug | 127.0.0.1 - - [05/Aug/2026 18:13:26] "GET /api/state?limit=50 HTTP/1.1" 200 -
+2026-08-05 18:13:28 | INFO     | werkzeug | 127.0.0.1 - - [05/Aug/2026 18:13:28] "GET /api/state?limit=50 HTTP/1.1" 200 -
+2026-08-05 18:13:30 | INFO     | werkzeug | 127.0.0.1 - - [05/Aug/2026 18:13:30] "GET /api/state?limit=50 HTTP/1.1" 200 -
+2026-08-05 18:13:32 | INFO     | werkzeug | 127.0.0.1 - - [05/Aug/2026 18:13:32] "GET /api/state?limit=50 HTTP/1.1" 200 -
+2026-08-05 18:13:34 | INFO     | werkzeug | 127.0.0.1 - - [05/Aug/2026 18:13:34] "GET /api/state?limit=50 HTTP/1.1" 200 -
+2026-08-05 18:13:37 | INFO     | werkzeug | 127.0.0.1 - - [05/Aug/2026 18:13:37] "GET /api/state?limit=50 HTTP/1.1" 200 -
+2026-08-05 18:13:38 | INFO     | werkzeug | 127.0.0.1 - - [05/Aug/2026 18:13:38] "GET /api/state?limit=50 HTTP/1.1" 200 -
+2026-08-05 18:13:41 | INFO     | __main__ | 收到中断信号，正在退出...
+2026-08-05 18:13:41 | INFO     | src.cv.face.detector | FaceDetector 已关闭
+2026-08-05 18:13:41 | INFO     | src.cv.mediapipe.processor | MediaPipe 处理器已关闭
+2026-08-05 18:13:41 | INFO     | src.cv.processor | CVProcessor 已关闭
+2026-08-05 18:13:41 | INFO     | src.camera.camera | 摄像头已关闭
+2026-08-05 18:13:41 | INFO     | src.service.pipeline | 主流程资源已释放
+2026-08-05 18:13:41 | INFO     | src.database.service | 数据库连接已关闭
+2026-08-05 18:30:58 | INFO     | src.database.service | 数据库连接成功: D:\Student-EarlyWarning-System\Student-EarlyWarning-System\./data/early_warning.db
+2026-08-05 18:31:02 | INFO     | src.camera.camera | 摄像头已打开: index=0
+2026-08-05 18:31:02 | INFO     | src.camera.camera | 摄像头已打开: index=0
+2026-08-05 18:31:02 | INFO     | src.cv.mediapipe.processor | MediaPipe 引擎初始化完成，max_faces=10
+2026-08-05 18:31:02 | INFO     | src.cv.face.detector | FaceDetector 已初始化，max_faces=10
+2026-08-05 18:31:02 | INFO     | src.cv.eye.eye_ear | EyeEarProcessor 已初始化，阈值=0.2
+2026-08-05 18:31:02 | INFO     | src.cv.pose.head_pose | HeadPoseEstimator 已初始化
+2026-08-05 18:31:02 | INFO     | src.cv.behavior.fatigue | 疲劳评估器已初始化，窗口=60.0秒
+2026-08-05 18:31:02 | INFO     | src.cv.emotion.engagement | EngagementAnalyzer 已初始化
+2026-08-05 18:31:02 | INFO     | src.cv.processor | CVProcessor 初始化完成，MediaPipe 单实例已共享
+2026-08-05 18:31:02 | INFO     | __main__ | Flask 服务后台线程已启动
+2026-08-05 18:31:02 | INFO     | src.service.pipeline | 主流程开始运行
+2026-08-05 18:31:02 | INFO     | src.api.app | Flask 应用创建完成
+2026-08-05 18:31:02 | INFO     | __main__ | Flask 服务启动于 0.0.0.0:5000
+2026-08-05 18:31:02 | INFO     | werkzeug | [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5000
+ * Running on http://10.98.0.17:5000
+2026-08-05 18:31:02 | INFO     | werkzeug | [33mPress CTRL+C to quit[0m
+2026-08-05 18:31:07 | INFO     | __main__ | 收到中断信号，正在退出...
+2026-08-05 18:31:07 | INFO     | src.cv.face.detector | FaceDetector 已关闭
+2026-08-05 18:31:07 | INFO     | src.cv.mediapipe.processor | MediaPipe 处理器已关闭
+2026-08-05 18:31:07 | INFO     | src.cv.processor | CVProcessor 已关闭
+2026-08-05 18:31:07 | INFO     | src.camera.camera | 摄像头已关闭
+2026-08-05 18:31:07 | INFO     | src.service.pipeline | 主流程资源已释放
+2026-08-05 18:31:07 | INFO     | src.database.service | 数据库连接已关闭
+2026-08-05 19:43:14 | INFO     | __main__ | 以 API-only 模式启动
+2026-08-05 19:43:15 | INFO     | src.api.app | Flask 应用创建完成
+2026-08-05 19:43:15 | INFO     | __main__ | Flask 服务启动于 0.0.0.0:5000
+2026-08-05 19:43:15 | INFO     | werkzeug | [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5000
+ * Running on http://10.98.0.17:5000
+2026-08-05 19:43:15 | INFO     | werkzeug | [33mPress CTRL+C to quit[0m
+2026-08-05 19:43:15 | INFO     | werkzeug | 127.0.0.1 - - [05/Aug/2026 19:43:15] "GET /api/health HTTP/1.1" 200 -
+2026-08-05 19:43:15 | INFO     | werkzeug | 127.0.0.1 - - [05/Aug/2026 19:43:15] "GET / HTTP/1.1" 200 -
+2026-08-05 19:43:15 | INFO     | werkzeug | 127.0.0.1 - - [05/Aug/2026 19:43:15] "GET /api/state HTTP/1.1" 200 -
+2026-08-05 19:43:15 | INFO     | werkzeug | 127.0.0.1 - - [05/Aug/2026 19:43:15] "GET /api/warnings HTTP/1.1" 200 -
+2026-08-05 19:43:15 | INFO     | werkzeug | 127.0.0.1 - - [05/Aug/2026 19:43:15] "GET /api/metrics/summary HTTP/1.1" 200 -
+2026-08-05 19:43:57 | INFO     | __main__ | 以 API-only 模式启动
+2026-08-05 19:43:57 | INFO     | src.database.service | 数据库连接成功: D:\Student-EarlyWarning-System\Student-EarlyWarning-System\./data/early_warning.db
+2026-08-05 19:43:57 | INFO     | src.api.app | Flask 应用创建完成
+2026-08-05 19:43:57 | INFO     | __main__ | Flask 服务启动于 0.0.0.0:5000
+2026-08-05 19:43:57 | INFO     | werkzeug | [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5000
+ * Running on http://10.98.0.17:5000
+2026-08-05 19:43:57 | INFO     | werkzeug | [33mPress CTRL+C to quit[0m
+2026-08-05 19:43:57 | INFO     | werkzeug | 127.0.0.1 - - [05/Aug/2026 19:43:57] "GET /api/health HTTP/1.1" 200 -
+2026-08-05 19:43:57 | ERROR    | src.api.app | Exception on /api/state [GET]
+Traceback (most recent call last):
+  File "C:\Users\MECHREV\.cache\codex-runtimes\codex-primary-runtime\dependencies\python\Lib\site-packages\flask\app.py", line 1511, in wsgi_app
+    response = self.full_dispatch_request()
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\MECHREV\.cache\codex-runtimes\codex-primary-runtime\dependencies\python\Lib\site-packages\flask\app.py", line 919, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\MECHREV\.cache\codex-runtimes\codex-primary-runtime\dependencies\python\Lib\site-packages\flask\app.py", line 917, in full_dispatch_request
+    rv = self.dispatch_request()
+         ^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\MECHREV\.cache\codex-runtimes\codex-primary-runtime\dependencies\python\Lib\site-packages\flask\app.py", line 902, in dispatch_request
+    return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)  # type: ignore[no-any-return]
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Student-EarlyWarning-System\Student-EarlyWarning-System\src\api\routes\dashboard.py", line 50, in state
+    records = db_service.query_state_records(limit=limit)
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Student-EarlyWarning-System\Student-EarlyWarning-System\src\database\service.py", line 365, in query_state_records
+    cursor = self.conn.cursor()
+             ^^^^^^^^^^^^^^^^^^
+sqlite3.ProgrammingError: SQLite objects created in a thread can only be used in that same thread. The object was created in thread id 26452 and this is thread id 25764.
+2026-08-05 19:43:57 | INFO     | werkzeug | 127.0.0.1 - - [05/Aug/2026 19:43:57] "[35m[1mGET /api/state HTTP/1.1[0m" 500 -
+2026-08-05 19:44:56 | INFO     | __main__ | 以 API-only 模式启动
+2026-08-05 19:44:56 | INFO     | src.database.service | 数据库连接成功: D:\Student-EarlyWarning-System\Student-EarlyWarning-System\./data/early_warning.db
+2026-08-05 19:44:56 | INFO     | src.api.app | Flask 应用创建完成
+2026-08-05 19:44:56 | INFO     | __main__ | Flask 服务启动于 0.0.0.0:5000
+2026-08-05 19:44:56 | INFO     | werkzeug | [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5000
+ * Running on http://10.98.0.17:5000
+2026-08-05 19:44:56 | INFO     | werkzeug | [33mPress CTRL+C to quit[0m
+2026-08-05 19:44:56 | INFO     | werkzeug | 127.0.0.1 - - [05/Aug/2026 19:44:56] "GET /api/health HTTP/1.1" 200 -
+2026-08-05 19:44:56 | ERROR    | src.api.app | Exception on /api/state [GET]
+Traceback (most recent call last):
+  File "C:\Users\MECHREV\.cache\codex-runtimes\codex-primary-runtime\dependencies\python\Lib\site-packages\flask\app.py", line 1511, in wsgi_app
+    response = self.full_dispatch_request()
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\MECHREV\.cache\codex-runtimes\codex-primary-runtime\dependencies\python\Lib\site-packages\flask\app.py", line 919, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\MECHREV\.cache\codex-runtimes\codex-primary-runtime\dependencies\python\Lib\site-packages\flask\app.py", line 917, in full_dispatch_request
+    rv = self.dispatch_request()
+         ^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\MECHREV\.cache\codex-runtimes\codex-primary-runtime\dependencies\python\Lib\site-packages\flask\app.py", line 902, in dispatch_request
+    return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)  # type: ignore[no-any-return]
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Student-EarlyWarning-System\Student-EarlyWarning-System\src\api\routes\dashboard.py", line 50, in state
+    records = db_service.query_state_records(limit=limit)
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Student-EarlyWarning-System\Student-EarlyWarning-System\src\database\service.py", line 365, in query_state_records
+    cursor = self.conn.cursor()
+             ^^^^^^^^^^^^^^^^^^
+sqlite3.ProgrammingError: SQLite objects created in a thread can only be used in that same thread. The object was created in thread id 20828 and this is thread id 7196.
+2026-08-05 19:44:56 | INFO     | werkzeug | 127.0.0.1 - - [05/Aug/2026 19:44:56] "[35m[1mGET /api/state HTTP/1.1[0m" 500 -
+2026-08-05 19:44:57 | INFO     | werkzeug | 127.0.0.1 - - [05/Aug/2026 19:44:57] "GET /api/health HTTP/1.1" 200 -
+2026-08-05 19:45:24 | INFO     | src.database.service | 数据库连接成功: D:\Student-EarlyWarning-System\Student-EarlyWarning-System\./data/early_warning.db
+2026-08-05 19:45:39 | INFO     | src.main | 以 API-only 模式启动
+2026-08-05 19:45:39 | INFO     | src.database.service | 数据库连接成功: D:\Student-EarlyWarning-System\Student-EarlyWarning-System\./data/early_warning.db
+2026-08-05 19:45:39 | INFO     | src.database.service | 数据库连接已关闭
+2026-08-05 19:46:57 | INFO     | src.main | 以 API-only 模式启动
+2026-08-05 19:46:57 | INFO     | src.database.service | 数据库连接成功: D:\Student-EarlyWarning-System\Student-EarlyWarning-System\./data/early_warning.db
+2026-08-05 19:46:57 | INFO     | src.database.service | 数据库连接已关闭
+2026-08-05 19:46:57 | INFO     | src.database.service | 数据库连接成功: :memory:
+2026-08-05 19:46:57 | INFO     | src.api.app | Flask 应用创建完成
+2026-08-05 19:46:57 | INFO     | src.database.service | 数据库连接已关闭
+2026-08-05 19:46:57 | INFO     | src.models.registry | ModelRegistry 已初始化
+2026-08-05 19:46:57 | INFO     | src.models.registry | ModelRegistry 已初始化
+2026-08-05 19:46:57 | INFO     | src.models.registry | 已注册模型: xgboost
+2026-08-05 19:46:57 | WARNING  | src.service.pipeline | 触发预警 types=absent level=low reason=face_not_present
+2026-08-05 19:46:57 | WARNING  | src.service.pipeline | 触发预警 types=absent level=low reason=face_not_present
+2026-08-05 19:46:57 | INFO     | src.service.pipeline | 主流程开始运行
+2026-08-05 19:46:57 | WARNING  | src.service.pipeline | 触发预警 types=absent level=low reason=face_not_present
+2026-08-05 19:46:57 | INFO     | src.service.pipeline | 主流程结束，共处理 2 帧
+2026-08-05 19:46:57 | WARNING  | src.service.pipeline | 触发预警 types=fatigue level=high reason=high_fatigue_score
+2026-08-05 19:46:57 | WARNING  | src.service.pipeline | 触发预警 types=absent level=low reason=face_not_present
+2026-08-05 19:46:57 | WARNING  | src.service.pipeline | 触发预警 types=fatigue level=high reason=high_fatigue_score
