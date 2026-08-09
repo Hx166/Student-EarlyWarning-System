@@ -26394,3 +26394,212 @@ sqlite3.ProgrammingError: SQLite objects created in a thread can only be used in
 2026-08-05 19:46:57 | WARNING  | src.service.pipeline | 触发预警 types=fatigue level=high reason=high_fatigue_score
 2026-08-05 19:46:57 | WARNING  | src.service.pipeline | 触发预警 types=absent level=low reason=face_not_present
 2026-08-05 19:46:57 | WARNING  | src.service.pipeline | 触发预警 types=fatigue level=high reason=high_fatigue_score
+2026-08-09 22:21:58 | INFO     | src.main | 以 API-only 模式启动
+2026-08-09 22:21:58 | INFO     | src.database.service | 数据库连接成功: D:\Student-EarlyWarning-System\Student-EarlyWarning-System\./data/early_warning.db
+2026-08-09 22:21:58 | INFO     | src.database.service | 数据库连接已关闭
+2026-08-09 22:21:58 | INFO     | src.database.service | 数据库连接成功: :memory:
+2026-08-09 22:21:58 | INFO     | src.api.app | Flask 应用创建完成
+2026-08-09 22:21:58 | INFO     | src.database.service | 数据库连接已关闭
+2026-08-09 22:21:58 | INFO     | src.models.features.builder | FeatureBuilder 已初始化，窗口长度=30 秒
+2026-08-09 22:21:58 | WARNING  | src.models.features.builder | 状态记录为空，返回空特征 DataFrame
+2026-08-09 22:21:58 | INFO     | src.models.features.builder | FeatureBuilder 已初始化，窗口长度=30 秒
+2026-08-09 22:21:58 | INFO     | src.models.features.builder | FeatureBuilder 已初始化，窗口长度=30 秒
+2026-08-09 22:21:58 | INFO     | src.models.features.builder | FeatureBuilder 已初始化，窗口长度=30 秒
+2026-08-09 22:21:58 | INFO     | src.models.features.builder | FeatureBuilder 已初始化，窗口长度=30 秒
+2026-08-09 22:21:58 | INFO     | src.models.features.builder | FeatureBuilder 已初始化，窗口长度=30 秒
+2026-08-09 22:21:58 | INFO     | src.models.features.builder | FeatureBuilder 已初始化，窗口长度=30 秒
+2026-08-09 22:21:58 | INFO     | src.models.features.builder | FeatureBuilder 已初始化，窗口长度=30 秒
+2026-08-09 22:21:58 | INFO     | src.models.features.builder | 特征 CSV 已导出: C:\Users\MECHREV\AppData\Local\Temp\tmptz80trd1\features.csv（35 行）
+2026-08-09 22:21:58 | INFO     | src.models.registry | ModelRegistry 已初始化
+2026-08-09 22:21:58 | INFO     | src.models.registry | ModelRegistry 已初始化
+2026-08-09 22:21:58 | INFO     | src.models.registry | 已注册模型: xgboost
+2026-08-09 22:21:58 | WARNING  | src.service.pipeline | 触发预警 types=absent level=low reason=face_not_present
+2026-08-09 22:21:58 | WARNING  | src.service.pipeline | 触发预警 types=absent level=low reason=face_not_present
+2026-08-09 22:21:58 | INFO     | src.service.pipeline | 主流程开始运行
+2026-08-09 22:21:58 | WARNING  | src.service.pipeline | 触发预警 types=absent level=low reason=face_not_present
+2026-08-09 22:21:58 | INFO     | src.service.pipeline | 主流程结束，共处理 2 帧
+2026-08-09 22:21:58 | WARNING  | src.service.pipeline | 触发预警 types=fatigue level=high reason=high_fatigue_score
+2026-08-09 22:21:58 | WARNING  | src.service.pipeline | 触发预警 types=absent level=low reason=face_not_present
+2026-08-09 22:21:58 | WARNING  | src.service.pipeline | 触发预警 types=fatigue level=high reason=high_fatigue_score
+2026-08-09 22:30:43 | INFO     | src.main | 以 API-only 模式启动
+2026-08-09 22:30:43 | INFO     | src.database.service | 数据库连接成功: D:\Student-EarlyWarning-System\Student-EarlyWarning-System\./data/early_warning.db
+2026-08-09 22:30:43 | INFO     | src.database.service | 数据库连接已关闭
+2026-08-09 22:30:43 | INFO     | src.database.service | 数据库连接成功: :memory:
+2026-08-09 22:30:43 | INFO     | src.api.app | Flask 应用创建完成
+2026-08-09 22:30:43 | INFO     | src.database.service | 数据库连接已关闭
+2026-08-09 22:30:43 | INFO     | src.models.features.builder | FeatureBuilder 已初始化，窗口长度=30 秒
+2026-08-09 22:30:43 | WARNING  | src.models.features.builder | 状态记录为空，返回空特征 DataFrame
+2026-08-09 22:30:43 | INFO     | src.models.features.builder | FeatureBuilder 已初始化，窗口长度=30 秒
+2026-08-09 22:30:43 | INFO     | src.models.features.builder | FeatureBuilder 已初始化，窗口长度=30 秒
+2026-08-09 22:30:43 | INFO     | src.models.features.builder | FeatureBuilder 已初始化，窗口长度=30 秒
+2026-08-09 22:30:43 | INFO     | src.models.features.builder | FeatureBuilder 已初始化，窗口长度=30 秒
+2026-08-09 22:30:43 | INFO     | src.models.features.builder | FeatureBuilder 已初始化，窗口长度=30 秒
+2026-08-09 22:30:43 | INFO     | src.models.features.builder | FeatureBuilder 已初始化，窗口长度=30 秒
+2026-08-09 22:30:43 | INFO     | src.models.features.builder | FeatureBuilder 已初始化，窗口长度=30 秒
+2026-08-09 22:30:43 | INFO     | src.models.features.builder | 特征 CSV 已导出: C:\Users\MECHREV\AppData\Local\Temp\tmpjs0g_zkd\features.csv（35 行）
+2026-08-09 22:30:43 | INFO     | src.models.registry | ModelRegistry 已初始化
+2026-08-09 22:30:43 | INFO     | src.models.registry | ModelRegistry 已初始化
+2026-08-09 22:30:43 | INFO     | src.models.registry | 已注册模型: xgboost
+2026-08-09 22:30:43 | INFO     | src.models.xgboost.model | XGBoostModel 已初始化
+2026-08-09 22:30:43 | INFO     | src.models.xgboost.model | XGBoostModel 已初始化
+2026-08-09 22:30:43 | INFO     | src.models.xgboost.model | XGBoostModel 已初始化
+2026-08-09 22:30:44 | INFO     | src.models.xgboost.model | XGBoostModel 已初始化
+2026-08-09 22:30:44 | INFO     | src.models.xgboost.model | XGBoostModel 已初始化
+2026-08-09 22:30:56 | INFO     | src.models.xgboost.model | XGBoost 模型训练完成，样本数=120
+2026-08-09 22:30:56 | INFO     | src.models.xgboost.model | XGBoost 模型已保存至 C:\Users\MECHREV\AppData\Local\Temp\tmp3194c6ee
+2026-08-09 22:30:56 | INFO     | src.models.xgboost.model | XGBoostModel 已初始化
+2026-08-09 22:30:56 | INFO     | src.models.xgboost.model | XGBoost 模型已从 C:\Users\MECHREV\AppData\Local\Temp\tmp3194c6ee 加载
+2026-08-09 22:30:56 | INFO     | src.models.xgboost.model | XGBoostModel 已初始化
+2026-08-09 22:30:56 | INFO     | src.models.xgboost.model | XGBoostModel 已初始化
+2026-08-09 22:30:56 | INFO     | src.models.xgboost.model | XGBoostModel 已初始化
+2026-08-09 22:30:56 | INFO     | src.models.xgboost.model | XGBoostModel 已初始化
+2026-08-09 22:30:56 | INFO     | src.models.xgboost.model | XGBoostModel 已初始化
+2026-08-09 22:30:56 | INFO     | src.models.xgboost.model | XGBoostModel 已初始化
+2026-08-09 22:30:56 | INFO     | src.models.xgboost.model | XGBoost 模型训练完成，样本数=60
+2026-08-09 22:30:56 | INFO     | src.models.xgboost.model | XGBoost 模型已保存至 C:\Users\MECHREV\AppData\Local\Temp\tmpftsm3nfg
+2026-08-09 22:30:56 | WARNING  | src.service.pipeline | 触发预警 types=absent level=low reason=face_not_present
+2026-08-09 22:30:56 | WARNING  | src.service.pipeline | 触发预警 types=absent level=low reason=face_not_present
+2026-08-09 22:30:56 | INFO     | src.service.pipeline | 主流程开始运行
+2026-08-09 22:30:56 | WARNING  | src.service.pipeline | 触发预警 types=absent level=low reason=face_not_present
+2026-08-09 22:30:56 | INFO     | src.service.pipeline | 主流程结束，共处理 2 帧
+2026-08-09 22:30:56 | WARNING  | src.service.pipeline | 触发预警 types=fatigue level=high reason=high_fatigue_score
+2026-08-09 22:30:56 | WARNING  | src.service.pipeline | 触发预警 types=absent level=low reason=face_not_present
+2026-08-09 22:30:56 | WARNING  | src.service.pipeline | 触发预警 types=fatigue level=high reason=high_fatigue_score
+2026-08-09 22:37:26 | INFO     | src.main | 以 API-only 模式启动
+2026-08-09 22:37:26 | INFO     | src.database.service | 数据库连接成功: D:\Student-EarlyWarning-System\Student-EarlyWarning-System\./data/early_warning.db
+2026-08-09 22:37:26 | INFO     | src.database.service | 数据库连接已关闭
+2026-08-09 22:37:26 | INFO     | src.database.service | 数据库连接成功: :memory:
+2026-08-09 22:37:26 | INFO     | src.api.app | Flask 应用创建完成
+2026-08-09 22:37:26 | INFO     | src.database.service | 数据库连接已关闭
+2026-08-09 22:37:26 | INFO     | src.models.features.builder | FeatureBuilder 已初始化，窗口长度=30 秒
+2026-08-09 22:37:26 | WARNING  | src.models.features.builder | 状态记录为空，返回空特征 DataFrame
+2026-08-09 22:37:26 | INFO     | src.models.features.builder | FeatureBuilder 已初始化，窗口长度=30 秒
+2026-08-09 22:37:26 | INFO     | src.models.features.builder | FeatureBuilder 已初始化，窗口长度=30 秒
+2026-08-09 22:37:27 | INFO     | src.models.features.builder | FeatureBuilder 已初始化，窗口长度=30 秒
+2026-08-09 22:37:27 | INFO     | src.models.features.builder | FeatureBuilder 已初始化，窗口长度=30 秒
+2026-08-09 22:37:27 | INFO     | src.models.features.builder | FeatureBuilder 已初始化，窗口长度=30 秒
+2026-08-09 22:37:27 | INFO     | src.models.features.builder | FeatureBuilder 已初始化，窗口长度=30 秒
+2026-08-09 22:37:27 | INFO     | src.models.features.builder | FeatureBuilder 已初始化，窗口长度=30 秒
+2026-08-09 22:37:27 | INFO     | src.models.features.builder | 特征 CSV 已导出: C:\Users\MECHREV\AppData\Local\Temp\tmpceu8g3z2\features.csv（35 行）
+2026-08-09 22:37:27 | INFO     | src.models.registry | ModelRegistry 已初始化
+2026-08-09 22:37:27 | INFO     | src.models.registry | ModelRegistry 已初始化
+2026-08-09 22:37:27 | INFO     | src.models.registry | 已注册模型: xgboost
+2026-08-09 22:37:27 | INFO     | src.models.xgboost.model | XGBoostModel 已初始化
+2026-08-09 22:37:27 | INFO     | src.models.xgboost.model | XGBoostModel 已初始化
+2026-08-09 22:37:27 | INFO     | src.models.xgboost.model | XGBoostModel 已初始化
+2026-08-09 22:37:28 | INFO     | src.models.xgboost.model | XGBoost 模型训练完成，样本数=80
+2026-08-09 22:37:28 | INFO     | src.models.xgboost.model | XGBoostModel 已初始化
+2026-08-09 22:37:28 | INFO     | src.models.xgboost.model | XGBoostModel 已初始化
+2026-08-09 22:37:28 | INFO     | src.models.xgboost.model | XGBoost 模型训练完成，样本数=120
+2026-08-09 22:37:28 | INFO     | src.models.xgboost.model | XGBoost 模型已保存至 C:\Users\MECHREV\AppData\Local\Temp\tmpyl9fq67y
+2026-08-09 22:37:28 | INFO     | src.models.xgboost.model | XGBoostModel 已初始化
+2026-08-09 22:37:28 | INFO     | src.models.xgboost.model | XGBoost 模型已从 C:\Users\MECHREV\AppData\Local\Temp\tmpyl9fq67y 加载
+2026-08-09 22:37:28 | INFO     | src.models.xgboost.model | XGBoostModel 已初始化
+2026-08-09 22:37:28 | INFO     | src.models.xgboost.model | XGBoostModel 已初始化
+2026-08-09 22:37:28 | INFO     | src.models.xgboost.model | XGBoostModel 已初始化
+2026-08-09 22:37:28 | INFO     | src.models.xgboost.model | XGBoostModel 已初始化
+2026-08-09 22:37:28 | INFO     | src.models.xgboost.model | XGBoostModel 已初始化
+2026-08-09 22:37:28 | INFO     | src.models.xgboost.model | XGBoostModel 已初始化
+2026-08-09 22:37:28 | INFO     | src.models.xgboost.model | XGBoost 模型训练完成，样本数=60
+2026-08-09 22:37:28 | INFO     | src.models.xgboost.model | XGBoost 模型已保存至 C:\Users\MECHREV\AppData\Local\Temp\tmpn30_82wj
+2026-08-09 22:37:28 | WARNING  | src.service.pipeline | 触发预警 types=absent level=low reason=face_not_present
+2026-08-09 22:37:28 | WARNING  | src.service.pipeline | 触发预警 types=absent level=low reason=face_not_present
+2026-08-09 22:37:28 | INFO     | src.service.pipeline | 主流程开始运行
+2026-08-09 22:37:28 | WARNING  | src.service.pipeline | 触发预警 types=absent level=low reason=face_not_present
+2026-08-09 22:37:28 | INFO     | src.service.pipeline | 主流程结束，共处理 2 帧
+2026-08-09 22:37:28 | WARNING  | src.service.pipeline | 触发预警 types=fatigue level=high reason=high_fatigue_score
+2026-08-09 22:37:28 | WARNING  | src.service.pipeline | 触发预警 types=absent level=low reason=face_not_present
+2026-08-09 22:37:28 | WARNING  | src.service.pipeline | 触发预警 types=fatigue level=high reason=high_fatigue_score
+2026-08-09 22:46:18 | INFO     | src.main | 以 API-only 模式启动
+2026-08-09 22:46:18 | INFO     | src.database.service | 数据库连接成功: D:\Student-EarlyWarning-System\Student-EarlyWarning-System\./data/early_warning.db
+2026-08-09 22:46:18 | INFO     | src.database.service | 数据库连接已关闭
+2026-08-09 22:46:18 | INFO     | src.database.service | 数据库连接成功: :memory:
+2026-08-09 22:46:18 | INFO     | src.api.app | Flask 应用创建完成
+2026-08-09 22:46:18 | INFO     | src.database.service | 数据库连接已关闭
+2026-08-09 22:46:18 | INFO     | src.models.features.builder | FeatureBuilder 已初始化，窗口长度=30 秒
+2026-08-09 22:46:18 | WARNING  | src.models.features.builder | 状态记录为空，返回空特征 DataFrame
+2026-08-09 22:46:18 | INFO     | src.models.features.builder | FeatureBuilder 已初始化，窗口长度=30 秒
+2026-08-09 22:46:18 | INFO     | src.models.features.builder | FeatureBuilder 已初始化，窗口长度=30 秒
+2026-08-09 22:46:18 | INFO     | src.models.features.builder | FeatureBuilder 已初始化，窗口长度=30 秒
+2026-08-09 22:46:18 | INFO     | src.models.features.builder | FeatureBuilder 已初始化，窗口长度=30 秒
+2026-08-09 22:46:18 | INFO     | src.models.features.builder | FeatureBuilder 已初始化，窗口长度=30 秒
+2026-08-09 22:46:18 | INFO     | src.models.features.builder | FeatureBuilder 已初始化，窗口长度=30 秒
+2026-08-09 22:46:18 | INFO     | src.models.features.builder | FeatureBuilder 已初始化，窗口长度=30 秒
+2026-08-09 22:46:18 | INFO     | src.models.features.builder | 特征 CSV 已导出: C:\Users\MECHREV\AppData\Local\Temp\tmpakjjf1zl\features.csv（35 行）
+2026-08-09 22:46:18 | INFO     | src.models.registry | ModelRegistry 已初始化，根目录=C:\Users\MECHREV\AppData\Local\Temp\tmpreecs8qb
+2026-08-09 22:46:18 | INFO     | src.models.registry | ModelRegistry 已初始化，根目录=C:\Users\MECHREV\AppData\Local\Temp\tmpgjcg8d95
+2026-08-09 22:46:18 | INFO     | src.models.registry | 已注册模型: m1
+2026-08-09 22:46:18 | INFO     | src.models.registry | 已注册模型: m2
+2026-08-09 22:46:18 | INFO     | src.models.registry | ModelRegistry 已初始化，根目录=C:\Users\MECHREV\AppData\Local\Temp\tmpc77r_6od
+2026-08-09 22:46:18 | INFO     | src.models.registry | 已注册模型: xgboost
+2026-08-09 22:46:18 | INFO     | src.models.registry | ModelRegistry 已初始化，根目录=C:\Users\MECHREV\AppData\Local\Temp\tmp0f4eg_ef
+2026-08-09 22:46:18 | INFO     | src.models.registry | ModelRegistry 已初始化，根目录=C:\Users\MECHREV\AppData\Local\Temp\tmp0f4eg_ef
+2026-08-09 22:46:18 | INFO     | src.models.registry | 模型已保存: m@v1 -> C:\Users\MECHREV\AppData\Local\Temp\tmp0f4eg_ef\m\v1
+2026-08-09 22:46:18 | INFO     | src.models.registry | ModelRegistry 已初始化，根目录=C:\Users\MECHREV\AppData\Local\Temp\tmp0f4eg_ef
+2026-08-09 22:46:18 | INFO     | src.models.registry | ModelRegistry 已初始化，根目录=C:\Users\MECHREV\AppData\Local\Temp\tmpklz6wy3s
+2026-08-09 22:46:18 | INFO     | src.models.xgboost.model | XGBoostModel 已初始化
+2026-08-09 22:46:18 | INFO     | src.models.xgboost.model | XGBoost 模型已保存至 C:\Users\MECHREV\AppData\Local\Temp\tmpklz6wy3s\xgboost\v1
+2026-08-09 22:46:18 | INFO     | src.models.registry | 模型已保存: xgboost@v1 -> C:\Users\MECHREV\AppData\Local\Temp\tmpklz6wy3s\xgboost\v1
+2026-08-09 22:46:18 | INFO     | src.models.registry | ModelRegistry 已初始化，根目录=C:\Users\MECHREV\AppData\Local\Temp\tmpsavwda21
+2026-08-09 22:46:18 | INFO     | src.models.registry | ModelRegistry 已初始化，根目录=C:\Users\MECHREV\AppData\Local\Temp\tmpjpwdncy6
+2026-08-09 22:46:18 | INFO     | src.models.registry | 模型已保存: demo@v1 -> C:\Users\MECHREV\AppData\Local\Temp\tmpjpwdncy6\demo\v1
+2026-08-09 22:46:18 | INFO     | src.models.registry | ModelRegistry 已初始化，根目录=C:\Users\MECHREV\AppData\Local\Temp\tmpjpwdncy6
+2026-08-09 22:46:18 | INFO     | src.models.registry | 模型已加载: demo@v1
+2026-08-09 22:46:18 | INFO     | src.models.registry | ModelRegistry 已初始化，根目录=C:\Users\MECHREV\AppData\Local\Temp\tmplqj6xj83
+2026-08-09 22:46:18 | WARNING  | src.models.registry | 模型获取失败: missing@v1 (模型元数据不存在: C:\Users\MECHREV\AppData\Local\Temp\tmplqj6xj83\missing\v1\model_metadata.json)
+2026-08-09 22:46:18 | INFO     | src.models.registry | ModelRegistry 已初始化，根目录=C:\Users\MECHREV\AppData\Local\Temp\tmpehvndx0h
+2026-08-09 22:46:18 | INFO     | src.models.registry | 模型已保存: m@v1 -> C:\Users\MECHREV\AppData\Local\Temp\tmpehvndx0h\m\v1
+2026-08-09 22:46:18 | INFO     | src.models.registry | 模型已保存: m@v2 -> C:\Users\MECHREV\AppData\Local\Temp\tmpehvndx0h\m\v2
+2026-08-09 22:46:18 | INFO     | src.models.registry | ModelRegistry 已初始化，根目录=C:\Users\MECHREV\AppData\Local\Temp\tmpf0_l554e
+2026-08-09 22:46:18 | INFO     | src.models.registry | ModelRegistry 已初始化，根目录=C:\Users\MECHREV\AppData\Local\Temp\tmpxdwmkl84
+2026-08-09 22:46:18 | INFO     | src.models.registry | 模型已保存: demo@v1 -> C:\Users\MECHREV\AppData\Local\Temp\tmpxdwmkl84\demo\v1
+2026-08-09 22:46:18 | INFO     | src.models.registry | 模型已加载: demo@v1
+2026-08-09 22:46:18 | INFO     | src.models.registry | ModelRegistry 已初始化，根目录=C:\Users\MECHREV\AppData\Local\Temp\tmpa4o62dtq
+2026-08-09 22:46:18 | INFO     | src.models.registry | 模型已保存: m@v1 -> C:\Users\MECHREV\AppData\Local\Temp\tmpa4o62dtq\m\v1
+2026-08-09 22:46:18 | INFO     | src.models.registry | 模型已删除: m@v1
+2026-08-09 22:46:18 | WARNING  | src.models.registry | 待删除模型目录不存在: C:\Users\MECHREV\AppData\Local\Temp\tmpa4o62dtq\m\v1
+2026-08-09 22:46:18 | INFO     | src.models.registry | ModelRegistry 已初始化，根目录=C:\Users\MECHREV\AppData\Local\Temp\tmp6lwxxxb3
+2026-08-09 22:46:18 | INFO     | src.models.registry | ModelRegistry 已初始化，根目录=C:\Users\MECHREV\AppData\Local\Temp\tmpfykwln4u
+2026-08-09 22:46:18 | INFO     | src.models.xgboost.model | XGBoostModel 已初始化
+2026-08-09 22:46:18 | INFO     | src.models.xgboost.model | XGBoost 模型已保存至 C:\Users\MECHREV\AppData\Local\Temp\tmpfykwln4u\xgboost\v1
+2026-08-09 22:46:18 | INFO     | src.models.registry | 模型已保存: xgboost@v1 -> C:\Users\MECHREV\AppData\Local\Temp\tmpfykwln4u\xgboost\v1
+2026-08-09 22:46:18 | INFO     | src.models.registry | ModelRegistry 已初始化，根目录=C:\Users\MECHREV\AppData\Local\Temp\tmpx4gkt2e0
+2026-08-09 22:46:18 | INFO     | src.models.registry | 模型已保存: demo@v1 -> C:\Users\MECHREV\AppData\Local\Temp\tmpx4gkt2e0\demo\v1
+2026-08-09 22:46:18 | INFO     | src.models.registry | ModelRegistry 已初始化，根目录=C:\Users\MECHREV\AppData\Local\Temp\tmptj0bdbf5
+2026-08-09 22:46:18 | INFO     | src.models.registry | 已注册模型加载工厂: xgboost
+2026-08-09 22:46:18 | INFO     | src.models.xgboost.model | XGBoostModel 已初始化
+2026-08-09 22:46:18 | INFO     | src.models.registry | 已注册模型: xgboost
+2026-08-09 22:46:18 | INFO     | src.models.registry | ModelRegistry 已初始化，根目录=C:\Users\MECHREV\AppData\Local\Temp\tmpol7_8al4
+2026-08-09 22:46:18 | INFO     | src.models.registry | 已注册模型加载工厂: xgboost
+2026-08-09 22:46:18 | INFO     | src.models.xgboost.model | XGBoostModel 已初始化
+2026-08-09 22:46:18 | INFO     | src.models.xgboost.model | XGBoost 模型已保存至 C:\Users\MECHREV\AppData\Local\Temp\tmpol7_8al4\xgboost\v1
+2026-08-09 22:46:18 | INFO     | src.models.registry | 模型已保存: xgboost@v1 -> C:\Users\MECHREV\AppData\Local\Temp\tmpol7_8al4\xgboost\v1
+2026-08-09 22:46:19 | INFO     | src.models.registry | ModelRegistry 已初始化，根目录=D:\Student-EarlyWarning-System\Student-EarlyWarning-System\models
+2026-08-09 22:46:19 | INFO     | src.models.registry | ModelRegistry 已初始化，根目录=D:\Student-EarlyWarning-System\Student-EarlyWarning-System\models
+2026-08-09 22:46:19 | INFO     | src.models.registry | 已注册模型: xgboost
+2026-08-09 22:46:19 | INFO     | src.models.xgboost.model | XGBoostModel 已初始化
+2026-08-09 22:46:19 | INFO     | src.models.xgboost.model | XGBoostModel 已初始化
+2026-08-09 22:46:19 | INFO     | src.models.xgboost.model | XGBoostModel 已初始化
+2026-08-09 22:46:20 | INFO     | src.models.xgboost.model | XGBoost 模型训练完成，样本数=80
+2026-08-09 22:46:20 | INFO     | src.models.xgboost.model | XGBoostModel 已初始化
+2026-08-09 22:46:20 | INFO     | src.models.xgboost.model | XGBoostModel 已初始化
+2026-08-09 22:46:20 | INFO     | src.models.xgboost.model | XGBoost 模型训练完成，样本数=120
+2026-08-09 22:46:20 | INFO     | src.models.xgboost.model | XGBoost 模型已保存至 C:\Users\MECHREV\AppData\Local\Temp\tmpqy6ukh8b
+2026-08-09 22:46:20 | INFO     | src.models.xgboost.model | XGBoostModel 已初始化
+2026-08-09 22:46:20 | INFO     | src.models.xgboost.model | XGBoost 模型已从 C:\Users\MECHREV\AppData\Local\Temp\tmpqy6ukh8b 加载
+2026-08-09 22:46:20 | INFO     | src.models.xgboost.model | XGBoostModel 已初始化
+2026-08-09 22:46:20 | INFO     | src.models.xgboost.model | XGBoostModel 已初始化
+2026-08-09 22:46:20 | INFO     | src.models.xgboost.model | XGBoostModel 已初始化
+2026-08-09 22:46:20 | INFO     | src.models.xgboost.model | XGBoostModel 已初始化
+2026-08-09 22:46:20 | INFO     | src.models.xgboost.model | XGBoostModel 已初始化
+2026-08-09 22:46:20 | INFO     | src.models.xgboost.model | XGBoostModel 已初始化
+2026-08-09 22:46:20 | INFO     | src.models.xgboost.model | XGBoost 模型训练完成，样本数=60
+2026-08-09 22:46:20 | INFO     | src.models.xgboost.model | XGBoost 模型已保存至 C:\Users\MECHREV\AppData\Local\Temp\tmpjrciv1sq
+2026-08-09 22:46:20 | WARNING  | src.service.pipeline | 触发预警 types=absent level=low reason=face_not_present
+2026-08-09 22:46:20 | WARNING  | src.service.pipeline | 触发预警 types=absent level=low reason=face_not_present
+2026-08-09 22:46:20 | INFO     | src.service.pipeline | 主流程开始运行
+2026-08-09 22:46:20 | WARNING  | src.service.pipeline | 触发预警 types=absent level=low reason=face_not_present
+2026-08-09 22:46:20 | INFO     | src.service.pipeline | 主流程结束，共处理 2 帧
+2026-08-09 22:46:20 | WARNING  | src.service.pipeline | 触发预警 types=fatigue level=high reason=high_fatigue_score
+2026-08-09 22:46:20 | WARNING  | src.service.pipeline | 触发预警 types=absent level=low reason=face_not_present
+2026-08-09 22:46:20 | WARNING  | src.service.pipeline | 触发预警 types=fatigue level=high reason=high_fatigue_score
