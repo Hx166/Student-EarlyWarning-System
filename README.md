@@ -200,8 +200,10 @@ Student-EarlyWarning-System
 | HeadPose            | 头部姿态估计  |
 | Fatigue             | 疲劳分析    |
 | Engagement          | 课堂参与度分析 |
-| Feature Engineering | 特征工程    |
-| XGBoost   | ⏳ 待开发（第四阶段） |
+| Feature Engineering | 特征工程（已完成） |
+| XGBoost   | ✅ 已完成（第四阶段） |
+| Model Management | 模型管理（已完成） |
+| Risk Prediction | 风险预测/推理（已完成） |
 | Dashboard | ✅ 已完成  |
 
 ---
@@ -219,7 +221,10 @@ Student-EarlyWarning-System
 | Camera    | ✅ 已完成  |
 | MediaPipe | ✅ 已完成  |
 | Dashboard | ✅ 已完成  |
-| XGBoost   | ⏳ 待开发（第四阶段） |
+| Feature Engineering | ✅ 已完成（第四阶段） |
+| XGBoost   | ✅ 已完成（第四阶段） |
+| Model Management | ✅ 已完成（第四阶段） |
+| Risk Prediction | ✅ 已完成（第四阶段） |
 
 ---
 
@@ -433,12 +438,18 @@ docs/09-项目管理/成员分工.md
 | SQLite（FrameRecord/StateRecord/WarningLog） | ✅ |
 | Flask API（/state /warnings /behaviors /frames） | ✅ |
 | Dashboard（ECharts 实时看板） | ✅ |
+| Feature Engineering（特征向量构建/归一化/CSV） | ✅ |
+| XGBoost（4 类状态分类/风险预测/评估） | ✅ |
+| Model Management（版本化保存/加载/元数据/注册） | ✅ |
+| Risk Prediction（风险类别/概率/等级输出） | ✅ |
 
 ---
 
 # 已知限制
 
-* 学业风险预测（XGBoost）、模型训练与评估属第四阶段，尚未开发。
+* LSTM 时序预测、SHAP 可解释性属后续版本，第四阶段暂未开发。
+* RiskPredictor 已作为独立预测/推理模块完成，尚未接入实时 Pipeline / Flask API。
+* 实时预测、在线预警、部署优化留待下一阶段。
 * Fatigue 的哈欠（Yawn/MAR）特征尚未接入融合。
 * 多人/多摄像头同步、MySQL/InfluxDB、用户权限系统属后期计划。
 * Dashboard 依赖 ECharts CDN，离线/内网环境需配置本地资源。
@@ -446,12 +457,17 @@ docs/09-项目管理/成员分工.md
 
 ---
 
-# 下一阶段计划（第四阶段：机器学习）
+# 第四阶段完成情况
 
-* Feature Engineering：基于视觉特征构建训练数据。
-* XGBoost 学业风险预测与风险评分。
-* 模型训练与评估（Evaluation）。
-* 后续：SHAP 可解释性、LSTM 时间序列预测。
+第四阶段（机器学习）已完成：数据处理/特征工程、XGBoost 模型、模型管理、Risk Prediction 预测推理，并完成相关测试。
+本阶段未开发 LSTM；RiskPredictor 作为独立预测模块完成，未强行接入实时 Pipeline/API。
+
+# 下一阶段计划（第五阶段：部署与优化）
+
+* 实时预测接入在线预警链路。
+* Flask API 提供预测接口。
+* SHAP 可解释性、LSTM 时间序列预测。
+* MySQL/InfluxDB、Docker 部署与性能优化。
 
 # License
 

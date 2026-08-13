@@ -312,3 +312,50 @@ class BehaviorResult:
             "confidence": self.confidence,
             "student_id": self.student_id,
         }
+
+@dataclass
+class RiskPredictionResult:
+    """学业风险预测结果（Risk Prediction 模块输出）。
+
+    Attributes:
+        risk_label: 4 类状态标签（normal/attention_down/fatigue/high_risk）。
+        risk_probability: 预测类别概率（0~1，即置信度）。
+        risk_level: 风险等级（normal/attention/warning/high_risk）。
+        confidence: 预测置信度（与 risk_probability 一致）。
+        model_version: 使用的模型版本。
+        prediction_time: 预测时间。
+        extra: 扩展信息。
+    """
+
+    risk_label: str = "normal"
+    risk_probability: float = 0.0
+    risk_level: str = "normal"
+    confidence: float = 0.0
+    model_version: str = "v1"
+    prediction_time: Optional[datetime] = None
+    extra: Dict[str, Any] = field(default_factory=dict)
+
+    def __post_init__(self) -> None:
+        """默认时间与置信度初始化。"""
+        if self.prediction_time is None:
+            self.prediction_time = datetime.now()
+        if self.confidence == 0.0:
+            self.confidence = self.risk_probability
+
+    def to_dict(self) -> Dict[str, Any]:
+        """转换为可序列化字典。
+
+        Returns:
+            风险预测结果字典。
+        """
+        return {
+            "risk_label": self.risk_label,
+            "risk_probability": self.risk_probability,
+            "risk_level": self.risk_level,
+            "confidence": self.confidence,
+            "model_version": self.model_version,
+            "prediction_time": (
+                self.prediction_time.isoformat() if self.prediction_time else None
+            ),
+            "extra": self.extra,
+        }
