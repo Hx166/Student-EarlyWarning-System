@@ -21,6 +21,8 @@ from src.core.models import (
     FaceLandmark,
     FatigueResult,
     HeadPoseResult,
+    MouthState,
+    PoseLandmark,
 )
 from src.cv.mediapipe import MediaPipeProcessor
 from src.cv.face.detector import FaceDetector
@@ -28,6 +30,7 @@ from src.cv.eye.eye_ear import EyeEarProcessor
 from src.cv.pose.head_pose import HeadPoseEstimator
 from src.cv.behavior.fatigue import FatigueAnalyzer
 from src.cv.emotion.engagement import EngagementAnalyzer
+from src.cv.mouth.mouth_mar import MouthProcessor
 from src.utils.logger import get_logger
 
 logger = get_logger(__name__)
@@ -41,15 +44,19 @@ class CVProcessResult:
         faces: 检测到的人脸列表。
         eye: 眼部状态结果。
         head_pose: 头部姿态结果。
+        mouth: 嘴部状态结果。
         fatigue: 疲劳评估结果。
         engagement: 课堂参与度结果。
+        pose: 人体姿态关键点（可为 None）。
     """
 
     faces: List[FaceLandmark] = None
     eye: Optional[EyeState] = None
     head_pose: Optional[HeadPoseResult] = None
+    mouth: Optional[MouthState] = None
     fatigue: Optional[FatigueResult] = None
     engagement: Optional[EngagementResult] = None
+    pose: Optional[PoseLandmark] = None
 
     def __post_init__(self) -> None:
         """默认空结果初始化。"""
@@ -59,6 +66,8 @@ class CVProcessResult:
             self.eye = EyeState()
         if self.head_pose is None:
             self.head_pose = HeadPoseResult()
+        if self.mouth is None:
+            self.mouth = MouthState()
         if self.fatigue is None:
             self.fatigue = FatigueResult()
         if self.engagement is None:
@@ -76,6 +85,7 @@ class CVProcessor:
         face_detector: 人脸检测器。
         eye_processor: 眼部状态处理器。
         head_pose_estimator: 头部姿态估计器。
+        mouth_processor: 嘴部状态处理器。
         fatigue_analyzer: 疲劳评估器。
         engagement_analyzer: 参与度评估器。
     """
@@ -87,6 +97,7 @@ class CVProcessor:
         self.face_detector = FaceDetector(mediapipe=self.mediapipe)
         self.eye_processor = EyeEarProcessor(mediapipe=self.mediapipe)
         self.head_pose_estimator = HeadPoseEstimator(mediapipe=self.mediapipe)
+        self.mouth_processor = MouthProcessor()
         self.fatigue_analyzer = FatigueAnalyzer()
         self.engagement_analyzer = EngagementAnalyzer()
         logger.info("CVProcessor 初始化完成，MediaPipe 单实例已共享")
@@ -102,24 +113,25 @@ class CVProcessor:
         """
         # 1. 人脸检测（MediaPipe Face Mesh）
         faces = self.face_detector.detect(frame)
+        pose = self.face_detector.get_last_pose()
 
         # 2. 使用第一张人脸的关键点进行眼部与头部姿态分析
         if faces:
             primary_face = faces[0]
-            landmarks = primary_face
         else:
-            landmarks = None
+            primary_face = None
 
         eye = self.eye_processor.analyze(
-            landmarks=landmarks, frame=frame
+            landmarks=primary_face, frame=frame
         )
         head_pose = self.head_pose_estimator.estimate(
-            landmarks=landmarks, frame=frame
+            landmarks=primary_face, frame=frame
         )
+        mouth = self.mouth_processor.analyze(landmarks=primary_face)
 
         # 3. 疲劳与参与度分析
         fatigue = self.fatigue_analyzer.analyze(
-            eye_state=eye, head_pose=head_pose
+            eye_state=eye, head_pose=head_pose, mouth_state=mouth
         )
         engagement = self.engagement_analyzer.analyze(
             eye_state=eye, head_pose=head_pose, fatigue=fatigue
@@ -129,8 +141,10 @@ class CVProcessor:
             faces=faces,
             eye=eye,
             head_pose=head_pose,
+            mouth=mouth,
             fatigue=fatigue,
             engagement=engagement,
+            pose=pose,
         )
 
     def close(self) -> None:

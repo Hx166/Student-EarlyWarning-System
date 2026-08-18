@@ -8,3 +8,4 @@ flask
 pyyaml
 pytest
 matplotlib
+shap  # 第五阶段可解释性依赖（XGBoost TreeExplainer 特征贡献分析）

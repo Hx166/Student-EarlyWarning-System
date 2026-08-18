@@ -21,6 +21,7 @@ from src.core.models import Frame
 from src.config import get_database, get_system
 from src.cv import CVProcessor
 from src.database import DatabaseService
+from src.service.behavior_tracker import BehaviorEventTracker
 from src.service.prediction import PredictionService
 from src.utils.logger import get_logger
 
@@ -47,6 +48,7 @@ class PipelineService:
         session_id: 当前会话 ID。
         frame_record_enabled: 是否写入 FrameRecord。
         prediction_service: 实时预测接线服务（可为 None）。
+        behavior_tracker: 行为事件跟踪器。
     """
 
     def __init__(
@@ -77,6 +79,7 @@ class PipelineService:
         # 秒级聚合缓冲
         self._agg_start: Optional[float] = None
         self._agg_ear = 0.0
+        self._agg_mar = 0.0
         self._agg_pitch = 0.0
         self._agg_yaw = 0.0
         self._agg_roll = 0.0
@@ -86,6 +89,8 @@ class PipelineService:
         self._agg_count = 0
         # 预警去重：同类型最近触发时刻
         self._last_warning_at: dict = {}
+        # 行为事件跟踪器
+        self.behavior_tracker = BehaviorEventTracker()
         # 实时预测接线（可配置开关，默认开启）
         pred_cfg = get_system().get("prediction", {})
         self.prediction_service: Optional[PredictionService] = None
@@ -115,6 +120,7 @@ class PipelineService:
         self._persist_frame(cv_result)
         self._accumulate(cv_result)
         self._flush_if_window_elapsed()
+        self._track_behavior(cv_result)
         self._maybe_write_warning(cv_result)
 
         logger.debug(
@@ -137,7 +143,7 @@ class PipelineService:
             student_id=self.student_id,
             session_id=self.session_id,
             ear=cv_result.eye.average_ear,
-            mar=0.0,
+            mar=cv_result.mouth.mar,
             pitch=cv_result.head_pose.pitch,
             yaw=cv_result.head_pose.yaw,
             roll=cv_result.head_pose.roll,
@@ -153,6 +159,7 @@ class PipelineService:
         if self._agg_start is None:
             self._agg_start = now
         self._agg_ear += cv_result.eye.average_ear
+        self._agg_mar += cv_result.mouth.mar
         self._agg_pitch += cv_result.head_pose.pitch
         self._agg_yaw += cv_result.head_pose.yaw
         self._agg_roll += cv_result.head_pose.roll
@@ -172,7 +179,7 @@ class PipelineService:
         state_record = {
             "record_time": datetime.now().isoformat(),
             "avg_ear": self._agg_ear / count,
-            "avg_mar": 0.0,
+            "avg_mar": self._agg_mar / count,
             "avg_pitch": self._agg_pitch / count,
             "avg_yaw": self._agg_yaw / count,
             "avg_roll": self._agg_roll / count,
@@ -200,6 +207,7 @@ class PipelineService:
         """重置秒级聚合缓冲。"""
         self._agg_start = None
         self._agg_ear = 0.0
+        self._agg_mar = 0.0
         self._agg_pitch = 0.0
         self._agg_yaw = 0.0
         self._agg_roll = 0.0
@@ -207,6 +215,25 @@ class PipelineService:
         self._agg_attention = 0.0
         self._agg_fatigue = 0.0
         self._agg_count = 0
+
+    def _track_behavior(self, cv_result) -> None:
+        """检测并写入行为事件到 BehaviorRecord。
+
+        Args:
+            cv_result: 视觉处理结果。
+        """
+        events = self.behavior_tracker.update(cv_result, datetime.now())
+        for event in events:
+            self.db.insert_behavior(
+                student_id=self.student_id,
+                session_id=self.session_id,
+                behavior_type=event.behavior_type,
+                start_time=event.start_time,
+                end_time=event.end_time,
+                duration=event.duration,
+            )
+            logger.debug("写入行为事件 type=%s duration=%.2f",
+                         event.behavior_type, event.duration)
 
     def _maybe_write_warning(self, cv_result) -> None:
         """根据疲劳与参与度评分判断是否触发预警。
@@ -345,6 +372,16 @@ class PipelineService:
 
     def close(self) -> None:
         """释放所有资源。"""
+        # 结束仍在进行中的行为事件（如 absent/head_down）
+        for event in self.behavior_tracker.flush(datetime.now()):
+            self.db.insert_behavior(
+                student_id=self.student_id,
+                session_id=self.session_id,
+                behavior_type=event.behavior_type,
+                start_time=event.start_time,
+                end_time=event.end_time,
+                duration=event.duration,
+            )
         self.cv.close()
         self.camera.close()
         logger.info("主流程资源已释放")

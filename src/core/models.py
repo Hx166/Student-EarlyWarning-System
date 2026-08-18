@@ -165,6 +165,33 @@ class EyeState:
 
 
 @dataclass
+class MouthState:
+    """嘴部状态检测结果（Mouth MAR 模块输出）。
+
+    Attributes:
+        mar: 嘴部纵横比。
+        is_yawn: 是否判定为打哈欠。
+        confidence: 可信度。
+    """
+
+    mar: float = 0.0
+    is_yawn: bool = False
+    confidence: float = 0.0
+
+    def to_dict(self) -> Dict[str, Any]:
+        """转换为可序列化字典。
+
+        Returns:
+            嘴部状态结果字典。
+        """
+        return {
+            "mar": self.mar,
+            "is_yawn": self.is_yawn,
+            "confidence": self.confidence,
+        }
+
+
+@dataclass
 class HeadPoseResult:
     """头部姿态估计结果（HeadPose 模块输出）。
 
@@ -205,6 +232,8 @@ class FatigueResult:
         perclos: 闭眼时间占比。
         blink_rate: 眨眼频率（次/分钟）。
         head_down_duration: 累计低头时间（秒）。
+        yawn_rate: 打哈欠频率（次/分钟）。
+        yawn_duration: 累计打哈欠时间（秒）。
         fatigue_score: 综合疲劳评分 (0~100)。
         fatigue_level: 疲劳等级字符串。
         confidence: 可信度。
@@ -213,6 +242,8 @@ class FatigueResult:
     perclos: float = 0.0
     blink_rate: float = 0.0
     head_down_duration: float = 0.0
+    yawn_rate: float = 0.0
+    yawn_duration: float = 0.0
     fatigue_score: float = 0.0
     fatigue_level: str = "normal"
     confidence: float = 0.0
@@ -227,6 +258,8 @@ class FatigueResult:
             "perclos": self.perclos,
             "blink_rate": self.blink_rate,
             "head_down_duration": self.head_down_duration,
+            "yawn_rate": self.yawn_rate,
+            "yawn_duration": self.yawn_duration,
             "fatigue_score": self.fatigue_score,
             "fatigue_level": self.fatigue_level,
             "confidence": self.confidence,

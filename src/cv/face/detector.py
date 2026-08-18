@@ -15,7 +15,7 @@ from typing import List, Optional
 import numpy as np
 
 from src.config import get_camera
-from src.core.models import FaceLandmark
+from src.core.models import FaceLandmark, PoseLandmark
 from src.cv.mediapipe import MediaPipeProcessor
 from src.utils.logger import get_logger
 
@@ -54,6 +54,7 @@ class FaceDetector:
             self.mediapipe = MediaPipeProcessor()
             self._owns_mediapipe = True
         self._last_frame: np.ndarray = None
+        self._last_pose: Optional[PoseLandmark] = None
         logger.info("FaceDetector 已初始化，max_faces=%s", self.max_faces)
 
     def detect(self, frame: np.ndarray) -> List[FaceLandmark]:
@@ -67,10 +68,14 @@ class FaceDetector:
         """
         if frame is None:
             self._last_frame = None
+            self._last_pose = None
             return []
 
         self._last_frame = frame
         result = self.mediapipe.process(frame)
+
+        # 记录最近一次的人体姿态关键点（供上层消费）
+        self._last_pose = result.pose
 
         # 按置信度过滤并限制人数
         faces = [f for f in result.faces if f.confidence >= self.min_confidence]
@@ -113,6 +118,14 @@ class FaceDetector:
             MediaPipe 处理器实例，供其他模块共享引用。
         """
         return self.mediapipe
+
+    def get_last_pose(self) -> Optional[PoseLandmark]:
+        """获取最近一次检测的人体姿态关键点。
+
+        Returns:
+            姿态关键点对象；无姿态时返回 None。
+        """
+        return self._last_pose
 
     def close(self) -> None:
         """释放人脸检测资源。
