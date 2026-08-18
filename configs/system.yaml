@@ -18,3 +18,10 @@ defaults:
   course_name: "课堂状态测试"
   teacher_name: "测试教师"
   classroom: "教学楼A101"
+
+prediction:
+  enabled: true
+  model_name: "xgboost"
+  model_version: "v1"
+  window_seconds: 30
+  min_records: 30

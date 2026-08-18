@@ -96,6 +96,21 @@ SCHEMA_STATEMENTS: List[str] = [
         config_value TEXT
     );
     """,
+    """
+    CREATE TABLE IF NOT EXISTS PredictionLog(
+        prediction_id INTEGER PRIMARY KEY AUTOINCREMENT,
+        student_id INTEGER,
+        session_id INTEGER,
+        record_time DATETIME,
+        risk_label TEXT,
+        risk_probability REAL,
+        risk_level TEXT,
+        model_version TEXT,
+        feature_json TEXT,
+        FOREIGN KEY(student_id) REFERENCES Student(student_id),
+        FOREIGN KEY(session_id) REFERENCES CourseSession(session_id)
+    );
+    """,
 ]
 
 
@@ -128,6 +143,8 @@ def create_indexes(conn: sqlite3.Connection) -> None:
         "CREATE INDEX IF NOT EXISTS idx_warning_student ON WarningLog(student_id);",
         "CREATE INDEX IF NOT EXISTS idx_frame_student ON FrameRecord(student_id);",
         "CREATE INDEX IF NOT EXISTS idx_frame_time ON FrameRecord(frame_time);",
+        "CREATE INDEX IF NOT EXISTS idx_prediction_student ON PredictionLog(student_id);",
+        "CREATE INDEX IF NOT EXISTS idx_prediction_time ON PredictionLog(record_time);",
     ]
     for statement in indexes:
         cursor.execute(statement)

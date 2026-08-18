@@ -12,13 +12,14 @@ from typing import Any, Dict, List, Optional
 
 from src.config import get_database
 from src.database.schema import create_indexes, create_tables
+from src.database.prediction import PredictionMixin
 from src.utils.logger import get_logger
 from src.utils.config import PROJECT_ROOT
 
 logger = get_logger(__name__)
 
 
-class DatabaseService:
+class DatabaseService(PredictionMixin):
     """数据库访问服务。
 
     负责 SLQite 连接管理与数据持久化操作。

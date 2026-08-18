@@ -4,5 +4,6 @@
 """
 
 from src.service.pipeline import PipelineService
+from src.service.prediction import PredictionService
 
-__all__ = ["PipelineService"]
+__all__ = ["PipelineService", "PredictionService"]
