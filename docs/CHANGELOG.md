@@ -10,6 +10,36 @@
 | v0.2.0 | 第二阶段（计算机视觉） |
 | v0.3.0 | 第三阶段（课堂状态分析） |
 | v0.4.0 | 第四阶段（机器学习） |
+| v0.5.0 | 第五阶段中间成果（实时预测接线 + 预测 API + SHAP） |
+| v1.0.0 | 第五阶段完成（LSTM + 数据库迁移 + Docker + 性能优化） |
+
+---
+
+## v0.5.0
+
+发布日期：2026-08-15
+
+说明：第五阶段（部署与优化）第 1~3 步完成，系统具备在线预测、可解释性与时序预测能力。
+
+### 新增 / 完成
+
+- 实时预测接线：PredictionService 接入 Pipeline，FeatureBuilder → RiskPredictor → PredictionLog，warning/high_risk 触发预警；无模型时自动降级跳过。
+- 预测 API：POST /api/predict、GET /api/predictions、GET /api/model/info。
+- PredictionLog 表 + 索引（CREATE TABLE IF NOT EXISTS，重启自动建表）。
+- MAR / 打哈欠：mouth_mar 实现真实 MAR（6 关键点），Fatigue 接入 Yawn 分量（权重 0.50/0.20/0.15/0.15）。
+- 行为事件：BehaviorEventTracker 状态机，blink/head_down/yawn/looking_away/absent 运行时写入 BehaviorRecord；Pose 关键点接入离开/在场判断。
+- SHAP：ShapExplainer 全局/局部解释，新增 shap 依赖。
+- LSTM：LSTMModel（PyTorch，训练/推理/保存/加载），经 ModelRegistry 统一管理，新增 torch 依赖。
+- 数据库后端抽象：DatabaseService 委托 DatabaseBackend（SQLite 默认 / MySQL 可切换 / InfluxDB 预留），新增 pymysql 依赖；提供 SQLite→MySQL 迁移脚本。
+
+### 测试
+
+- 第五阶段第 1~3 步新增测试：第 1 步 14 例、第 2 步 19 例、第 3 步 15 例。
+- 全量测试：156 passed, 6 skipped（6 个 cv2/mediapipe 环境用例）。
+
+### 待完成（第 4 步）
+
+- Docker 部署、ECharts 本地化、多人逐人分析、多线程 Pipeline、后端精确 FPS、docs/08-测试 填充、文档收尾。
 
 ---
 

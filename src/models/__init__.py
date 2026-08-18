@@ -9,8 +9,17 @@ from src.models.registry import (
     register_model_loader,
 )
 from src.models.xgboost import XGBoostModel
+from src.models.lstm import LSTMModel
 
 # 注册 xgboost 模型加载工厂，供 ModelRegistry.load_model 使用
 register_model_loader("xgboost", lambda: XGBoostModel())
+# 注册 lstm 模型加载工厂，供 ModelRegistry.load_model 使用
+register_model_loader("lstm", lambda: LSTMModel())
 
-__all__ = ["ModelRegistry", "XGBoostModel", "register_model_loader", "METADATA_FILENAME"]
+__all__ = [
+    "ModelRegistry",
+    "XGBoostModel",
+    "LSTMModel",
+    "register_model_loader",
+    "METADATA_FILENAME",
+]

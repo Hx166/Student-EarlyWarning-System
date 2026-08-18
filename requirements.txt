@@ -9,3 +9,5 @@ pyyaml
 pytest
 matplotlib
 shap  # 第五阶段可解释性依赖（XGBoost TreeExplainer 特征贡献分析）
+pymysql  # 第五阶段 MySQL 后端驱动
+torch  # 第五阶段 LSTM 时序预测（PyTorch，AGENTS.md 技术栈内；CPU 安装可加 --index-url https://download.pytorch.org/whl/cpu）

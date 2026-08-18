@@ -40,8 +40,8 @@ class PredictionMixin:
         Returns:
             记录 ID。
         """
-        cursor = self.conn.cursor()
-        cursor.execute(
+        return self._backend.execute(
+            self.conn,
             """
             INSERT INTO PredictionLog(
                 student_id, session_id, record_time, risk_label,
@@ -54,8 +54,6 @@ class PredictionMixin:
                 feature_json,
             ),
         )
-        self.conn.commit()
-        return cursor.lastrowid
 
     def query_prediction_records(
         self, student_id: Optional[int] = None, limit: int = 100
@@ -76,6 +74,4 @@ class PredictionMixin:
             params.append(student_id)
         query += " ORDER BY record_time DESC LIMIT ?"
         params.append(limit)
-        cursor = self.conn.cursor()
-        cursor.execute(query, params)
-        return [dict(row) for row in cursor.fetchall()]
+        return self._backend.query(self.conn, query, params)

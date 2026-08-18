@@ -1,4 +1,4 @@
-﻿# 机器学习训练配置（V0.1 保留占位）
+﻿# 机器学习训练配置
 training:
   model_dir: "models"
   datasets_dir: "datasets"
@@ -15,4 +15,8 @@ xgboost:
 lstm:
   hidden_size: 64
   num_layers: 2
-  seq_len: 30
+  seq_len: 60
+  dropout: 0.2
+  batch_size: 32
+  epochs: 100
+  learning_rate: 0.001

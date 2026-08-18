@@ -79,7 +79,7 @@ XGBoost
 Dashboard
 ```
 
-> 注：SHAP、LSTM 属后续版本（V1.0 / 第五阶段）内容，尚未开发。
+> 注：SHAP、LSTM 已实现（第五阶段），其 Dashboard 可视化面板留待第 4 步接入。
 
 ---
 
@@ -106,9 +106,9 @@ Dashboard
 
 ---
 
-## 深度学习（后续）
+## 深度学习
 
-* PyTorch（LSTM）
+* PyTorch（LSTM，第五阶段已完成）
 
 ---
 
@@ -184,7 +184,7 @@ Student-EarlyWarning-System
 | 第二阶段（计算机视觉） | ✅ 已完成 |
 | 第三阶段（课堂状态分析） | ✅ 已完成 |
 | 第四阶段（机器学习） | ✅ 已完成 |
-| 第五阶段（部署与优化） | ⏳ 待开发 |
+| 第五阶段（部署与优化） | 🔄 进行中（第 1~3 步完成） |
 
 ---
 
@@ -252,31 +252,37 @@ CV模块开发
 | XGBoost（4 类状态分类/风险预测/评估） | ✅ |
 | Model Management（版本化保存/加载/元数据/注册） | ✅ |
 | Risk Prediction（风险类别/概率/等级输出） | ✅ |
+| PredictionLog（预测结果持久化） | ✅（第五阶段） |
+| 预测 API（/api/predict /api/predictions /api/model/info） | ✅（第五阶段） |
+| MAR / 打哈欠（Yawn） | ✅（第五阶段） |
+| BehaviorRecord 行为事件写入 | ✅（第五阶段） |
+| SHAP 可解释性（ShapExplainer） | ✅（第五阶段） |
+| LSTM 时序预测 | ✅（第五阶段） |
+| 数据库后端抽象（SQLite/MySQL/InfluxDB 预留） | ✅（第五阶段） |
 
 ---
 
 # 已知限制
 
-* LSTM 时序预测、SHAP 可解释性属后续版本，本次（第四阶段）未开发。
-* RiskPredictor 已作为独立预测/推理模块完成，尚未接入实时 Pipeline / Flask API。
-* 实时预测、在线预警、部署优化留待下一阶段（第五阶段）。
-* Fatigue 的哈欠（Yawn/MAR）特征尚未接入融合（Mouth MAR 模块仍为占位，恒返回 0）。
-* 行为事件（blink/head_down/yawn/looking_away/absent）暂未在运行时写入 BehaviorRecord（表已建立，运行 Pipeline 仅写 FrameRecord/StateRecord/WarningLog）。
-* MediaPipe Pose 关键点已计算但尚未被运行时链路消费。
-* 多人场景下视觉分析仅处理第一张人脸（`CVProcessor` 取 `faces[0]`），逐人分析待后续。
-* 多人/多摄像头同步、MySQL/InfluxDB、用户权限系统属后期计划。
-* Dashboard 依赖 ECharts CDN，离线/内网环境需配置本地资源。
-* 实时 FPS 为前端基于状态记录时间间隔估算，非后端精确框速。
+* Docker 部署、前端 ECharts 本地化尚未完成（第五阶段第 4 步）。
+* 多人场景下视觉分析仅处理第一张人脸（`CVProcessor` 取 `faces[0]`），逐人分析待第 4 步。
+* Pipeline 采集/视觉/预测/写入尚未多线程/异步解耦；后端精确 FPS 统计待做。
+* InfluxDB 仅预留接口（默认关闭），尚未接入真实时序写入。
+* Dashboard 的 SHAP 风险解释面板尚未接入（ShapExplainer 模块已完成）。
+* 多人/多摄像头同步、用户权限系统、云部署属后续计划。
+* Dashboard 依赖 ECharts CDN（待第 4 步本地化），离线/内网环境需配置本地资源。
+* 实时 FPS 为前端基于状态记录时间间隔估算，非后端精确框速（待第 4 步）。
 
 ---
 
-# 下一阶段计划（第五阶段：部署与优化）
+# 下一阶段计划（第五阶段 · 剩余工作）
 
-* 实时预测接入在线预警链路。
-* Flask API 提供预测接口。
-* SHAP 可解释性、LSTM 时间序列预测。
-* 补齐 MAR/打哈欠与行为事件持久化。
-* MySQL/InfluxDB、Docker 部署与性能优化。
+* Docker 部署（Dockerfile、docker-compose）。
+* ECharts 本地化（移除 CDN 依赖）。
+* 多人逐人分析、Pipeline 多线程/异步解耦、后端精确 FPS。
+* SHAP 风险解释面板接入 Dashboard。
+* InfluxDB 真实时序写入接入。
+* 填充 docs/08-测试/ 文档并完成全量测试与文档收尾。
 
 ---
 

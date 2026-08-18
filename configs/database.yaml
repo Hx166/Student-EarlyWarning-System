@@ -1,8 +1,26 @@
 ﻿# 数据库配置
 database:
+  backend: "sqlite"          # 存储后端：sqlite（默认）| mysql
   url: "sqlite:///./data/early_warning.db"
   echo: false
   foreign_keys: true
+
+# MySQL 后端配置（backend: mysql 时生效，需安装 pymysql）
+mysql:
+  host: "127.0.0.1"
+  port: 3306
+  user: "root"
+  password: ""
+  database: "early_warning"
+  charset: "utf8mb4"
+
+# InfluxDB 高频时序数据（预留，默认关闭；启用需安装 influxdb-client）
+influxdb:
+  enabled: false
+  url: "http://localhost:8086"
+  token: ""
+  org: ""
+  bucket: "early_warning"
 
 frame_record:
   enabled: true

@@ -1,20 +1,19 @@
 ﻿"""src/database/service.py —— 数据库统一访问服务。
 
-提供 SQLite 连接的建立、表的初始化以及常用数据的写入与查询能力。
+提供数据库连接的建立、表的初始化以及常用数据的写入与查询能力。
+默认使用 SQLite 后端，可通过 configs/database.yaml 的 backend 切换为 MySQL。
 """
 
 from __future__ import annotations
 
-import os
-import sqlite3
 from datetime import datetime
 from typing import Any, Dict, List, Optional
 
 from src.config import get_database
-from src.database.schema import create_indexes, create_tables
+from src.database.backends import DatabaseBackend, create_backend
 from src.database.prediction import PredictionMixin
+from src.database.timeseries import create_timeseries_writer
 from src.utils.logger import get_logger
-from src.utils.config import PROJECT_ROOT
 
 logger = get_logger(__name__)
 
@@ -22,71 +21,44 @@ logger = get_logger(__name__)
 class DatabaseService(PredictionMixin):
     """数据库访问服务。
 
-    负责 SLQite 连接管理与数据持久化操作。
+    负责连接管理与数据持久化操作，后端可切换（SQLite 默认 / MySQL）。
 
     Attributes:
-        conn: SQLite 连接对象。
+        conn: 底层连接对象。
+        _backend: 存储后端。
+        ts_writer: 高频时序写入器（InfluxDB 预留，可为 None）。
     """
 
-    def __init__(self, db_path: Optional[str] = None) -> None:
+    def __init__(
+        self, db_path: Optional[str] = None, backend: Optional[str] = None
+    ) -> None:
         """初始化数据库服务。
 
         Args:
-            db_path: 数据库文件路径；为 None 时从配置读取。
+            db_path: SQLite 数据库文件路径；为 None 时从配置读取。
+            backend: 后端名称（sqlite/mysql）；为 None 时从配置读取。
         """
-        if db_path is None:
-            cfg = get_database()
-            raw = cfg.get("database", {}).get("url", "sqlite:///./data/early_warning.db")
-            db_path = self._resolve_sqlite_path(raw)
-        self.db_path = db_path
-        self.conn: Optional[sqlite3.Connection] = None
-
-    def _resolve_sqlite_path(self, url: str) -> str:
-        """解析 sqlite url 为文件路径。
-
-        Args:
-            url: sqlite 连接字符串，如 "sqlite:///path" 或 ":memory:"。
-
-        Returns:
-            解析后的数据库路径。
-        """
-        if url == ":memory:" or url == "sqlite:///:memory:":
-            return ":memory:"
-        if url.startswith("sqlite:///"):
-            path = url[len("sqlite:///"):]
-        else:
-            path = url
-        # 相对路径基于项目根目录解析
-        if not os.path.isabs(path):
-            path = os.path.join(PROJECT_ROOT, path)
-        dirname = os.path.dirname(path)
-        if dirname:
-            os.makedirs(dirname, exist_ok=True)
-        return path
+        cfg = get_database()
+        backend_name = backend or cfg.get("database", {}).get("backend", "sqlite")
+        self._backend: DatabaseBackend = create_backend(backend_name, cfg, db_path)
+        self.conn: Optional[Any] = None
+        self.ts_writer = create_timeseries_writer(cfg.get("influxdb", {}))
 
     def connect(self) -> "DatabaseService":
         """建立数据库连接并初始化表结构。
 
         Returns:
             当前实例，便于链式调用。
-
-        Raises:
-            sqlite3.Error: 连接失败时抛出。
         """
-        self.conn = sqlite3.connect(self.db_path)
-        self.conn.row_factory = sqlite3.Row
-        cfg = get_database()
-        if cfg.get("database", {}).get("foreign_keys", True):
-            self.conn.execute("PRAGMA foreign_keys = ON;")
-        create_tables(self.conn)
-        create_indexes(self.conn)
-        logger.info("数据库连接成功: %s", self.db_path)
+        self.conn = self._backend.connect()
+        self._backend.create_schema(self.conn)
+        logger.info("数据库连接成功，后端=%s", self._backend.__class__.__name__)
         return self
 
     def close(self) -> None:
         """关闭数据库连接。"""
         if self.conn is not None:
-            self.conn.close()
+            self._backend.close(self.conn)
             self.conn = None
             logger.info("数据库连接已关闭")
 
@@ -110,32 +82,29 @@ class DatabaseService(PredictionMixin):
         Returns:
             学生 ID。
         """
-        cursor = self.conn.cursor()
-        cursor.execute(
+        row = self._backend.query_one(
+            self.conn,
             "SELECT student_id FROM Student WHERE student_no = ?",
             (student_no,),
         )
-        row = cursor.fetchone()
         if row is not None:
-            cursor.execute(
+            self._backend.execute(
+                self.conn,
                 """
                 UPDATE Student SET student_name=?, gender=?, class_name=?, major=?
                 WHERE student_no=?
                 """,
                 (student_name, gender, class_name, major, student_no),
             )
-            student_id = row["student_id"]
-        else:
-            cursor.execute(
-                """
-                INSERT INTO Student(student_no, student_name, gender, class_name, major)
-                VALUES (?, ?, ?, ?, ?)
-                """,
-                (student_no, student_name, gender, class_name, major),
-            )
-            student_id = cursor.lastrowid
-        self.conn.commit()
-        return student_id
+            return int(row["student_id"])
+        return self._backend.execute(
+            self.conn,
+            """
+            INSERT INTO Student(student_no, student_name, gender, class_name, major)
+            VALUES (?, ?, ?, ?, ?)
+            """,
+            (student_no, student_name, gender, class_name, major),
+        )
 
     def create_session(
         self,
@@ -157,16 +126,14 @@ class DatabaseService(PredictionMixin):
         """
         if start_time is None:
             start_time = datetime.now()
-        cursor = self.conn.cursor()
-        cursor.execute(
+        return self._backend.execute(
+            self.conn,
             """
             INSERT INTO CourseSession(course_name, teacher_name, classroom, start_time)
             VALUES (?, ?, ?, ?)
             """,
             (course_name, teacher_name, classroom, start_time.isoformat()),
         )
-        self.conn.commit()
-        return cursor.lastrowid
 
     def end_session(self, session_id: int) -> None:
         """结束课堂会话。
@@ -174,12 +141,11 @@ class DatabaseService(PredictionMixin):
         Args:
             session_id: 会话 ID。
         """
-        cursor = self.conn.cursor()
-        cursor.execute(
+        self._backend.execute(
+            self.conn,
             "UPDATE CourseSession SET end_time=? WHERE session_id=?",
             (datetime.now().isoformat(), session_id),
         )
-        self.conn.commit()
 
     def insert_frame_record(
         self,
@@ -205,8 +171,8 @@ class DatabaseService(PredictionMixin):
         Returns:
             记录 ID。
         """
-        cursor = self.conn.cursor()
-        cursor.execute(
+        record_id = self._backend.execute(
+            self.conn,
             """
             INSERT INTO FrameRecord(
                 student_id, session_id, frame_time, ear, mar, pitch, yaw, roll
@@ -217,8 +183,11 @@ class DatabaseService(PredictionMixin):
                 ear, mar, pitch, yaw, roll,
             ),
         )
-        self.conn.commit()
-        return cursor.lastrowid
+        self._write_timeseries("frame_record", {
+            "student_id": student_id, "session_id": session_id,
+            "ear": ear, "mar": mar, "pitch": pitch, "yaw": yaw, "roll": roll,
+        })
+        return record_id
 
     def insert_state_record(
         self,
@@ -250,8 +219,8 @@ class DatabaseService(PredictionMixin):
         Returns:
             记录 ID。
         """
-        cursor = self.conn.cursor()
-        cursor.execute(
+        record_id = self._backend.execute(
+            self.conn,
             """
             INSERT INTO StateRecord(
                 student_id, session_id, record_time, avg_ear, avg_mar,
@@ -265,8 +234,12 @@ class DatabaseService(PredictionMixin):
                 perclos, attention_score, fatigue_score,
             ),
         )
-        self.conn.commit()
-        return cursor.lastrowid
+        self._write_timeseries("state_record", {
+            "student_id": student_id, "session_id": session_id,
+            "avg_ear": avg_ear, "avg_mar": avg_mar, "perclos": perclos,
+            "attention_score": attention_score, "fatigue_score": fatigue_score,
+        })
+        return record_id
 
     def insert_behavior(
         self,
@@ -290,8 +263,8 @@ class DatabaseService(PredictionMixin):
         Returns:
             记录 ID。
         """
-        cursor = self.conn.cursor()
-        cursor.execute(
+        return self._backend.execute(
+            self.conn,
             """
             INSERT INTO BehaviorRecord(
                 student_id, session_id, behavior_type,
@@ -303,8 +276,6 @@ class DatabaseService(PredictionMixin):
                 start_time.isoformat(), end_time.isoformat(), duration,
             ),
         )
-        self.conn.commit()
-        return cursor.lastrowid
 
     def insert_warning(
         self,
@@ -328,8 +299,8 @@ class DatabaseService(PredictionMixin):
         Returns:
             记录 ID。
         """
-        cursor = self.conn.cursor()
-        cursor.execute(
+        return self._backend.execute(
+            self.conn,
             """
             INSERT INTO WarningLog(
                 student_id, session_id, warning_level, warning_type,
@@ -341,8 +312,6 @@ class DatabaseService(PredictionMixin):
                 warning_reason, attention_score, datetime.now().isoformat(),
             ),
         )
-        self.conn.commit()
-        return cursor.lastrowid
 
     def query_state_records(
         self, student_id: Optional[int] = None, limit: int = 100
@@ -363,21 +332,19 @@ class DatabaseService(PredictionMixin):
             params.append(student_id)
         query += " ORDER BY record_time DESC LIMIT ?"
         params.append(limit)
-        cursor = self.conn.cursor()
-        cursor.execute(query, params)
-        return [dict(row) for row in cursor.fetchall()]
+        return self._backend.query(self.conn, query, params)
 
     def query_frame_records(
         self, student_id: Optional[int] = None, limit: int = 100
     ) -> List[Dict[str, Any]]:
-        """\u67e5\u8be2\u539f\u59cb\u5e27\u89c6\u89c9\u6570\u636e\u3002
+        """查询原始帧视觉数据。
 
         Args:
-            student_id: \u5b66\u751f ID \u8fc7\u6ee4\u6761\u4ef6\uff0cNone \u8868\u793a\u6240\u6709\u5b66\u751f\u3002
-            limit: \u8fd4\u56de\u8bb0\u5f55\u6761\u6570\u4e0a\u9650\u3002
+            student_id: 学生 ID 过滤条件，None 表示所有学生。
+            limit: 返回记录条数上限。
 
         Returns:
-            \u5e27\u8bb0\u5f55\u5b57\u5178\u5217\u8868\u3002
+            帧记录字典列表。
         """
         query = "SELECT * FROM FrameRecord"
         params: List[Any] = []
@@ -386,21 +353,19 @@ class DatabaseService(PredictionMixin):
             params.append(student_id)
         query += " ORDER BY frame_time DESC LIMIT ?"
         params.append(limit)
-        cursor = self.conn.cursor()
-        cursor.execute(query, params)
-        return [dict(row) for row in cursor.fetchall()]
+        return self._backend.query(self.conn, query, params)
 
     def query_behavior_records(
         self, student_id: Optional[int] = None, limit: int = 100
     ) -> List[Dict[str, Any]]:
-        """\u67e5\u8be2\u884c\u4e3a\u4e8b\u4ef6\u8bb0\u5f55\u3002
+        """查询行为事件记录。
 
         Args:
-            student_id: \u5b66\u751f ID \u8fc7\u6ee4\u6761\u4ef6\uff0cNone \u8868\u793a\u6240\u6709\u5b66\u751f\u3002
-            limit: \u8fd4\u56de\u8bb0\u5f55\u6761\u6570\u4e0a\u9650\u3002
+            student_id: 学生 ID 过滤条件，None 表示所有学生。
+            limit: 返回记录条数上限。
 
         Returns:
-            \u884c\u4e3a\u8bb0\u5f55\u5b57\u5178\u5217\u8868\u3002
+            行为记录字典列表。
         """
         query = "SELECT * FROM BehaviorRecord"
         params: List[Any] = []
@@ -409,21 +374,19 @@ class DatabaseService(PredictionMixin):
             params.append(student_id)
         query += " ORDER BY start_time DESC LIMIT ?"
         params.append(limit)
-        cursor = self.conn.cursor()
-        cursor.execute(query, params)
-        return [dict(row) for row in cursor.fetchall()]
+        return self._backend.query(self.conn, query, params)
 
     def query_warning_records(
         self, student_id: Optional[int] = None, limit: int = 100
     ) -> List[Dict[str, Any]]:
-        """\u67e5\u8be2\u98ce\u9669\u9884\u8b66\u8bb0\u5f55\u3002
+        """查询风险预警记录。
 
         Args:
-            student_id: \u5b66\u751f ID \u8fc7\u6ee4\u6761\u4ef6\uff0cNone \u8868\u793a\u6240\u6709\u5b66\u751f\u3002
-            limit: \u8fd4\u56de\u8bb0\u5f55\u6761\u6570\u4e0a\u9650\u3002
+            student_id: 学生 ID 过滤条件，None 表示所有学生。
+            limit: 返回记录条数上限。
 
         Returns:
-            \u9884\u8b66\u8bb0\u5f55\u5b57\u5178\u5217\u8868\u3002
+            预警记录字典列表。
         """
         query = "SELECT * FROM WarningLog"
         params: List[Any] = []
@@ -432,9 +395,7 @@ class DatabaseService(PredictionMixin):
             params.append(student_id)
         query += " ORDER BY create_time DESC LIMIT ?"
         params.append(limit)
-        cursor = self.conn.cursor()
-        cursor.execute(query, params)
-        return [dict(row) for row in cursor.fetchall()]
+        return self._backend.query(self.conn, query, params)
 
     def set_config(self, key: str, value: str) -> None:
         """写入系统配置键值。
@@ -443,12 +404,11 @@ class DatabaseService(PredictionMixin):
             key: 配置键。
             value: 配置值。
         """
-        cursor = self.conn.cursor()
-        cursor.execute(
+        self._backend.execute(
+            self.conn,
             "INSERT INTO SystemConfig(config_key, config_value) VALUES (?, ?)",
             (key, value),
         )
-        self.conn.commit()
 
     def get_config(self, key: str) -> Optional[str]:
         """读取系统配置值。
@@ -459,10 +419,26 @@ class DatabaseService(PredictionMixin):
         Returns:
             配置值；不存在时返回 None。
         """
-        cursor = self.conn.cursor()
-        cursor.execute(
+        row = self._backend.query_one(
+            self.conn,
             "SELECT config_value FROM SystemConfig WHERE config_key = ?",
             (key,),
         )
-        row = cursor.fetchone()
         return row["config_value"] if row else None
+
+    def _write_timeseries(self, kind: str, fields: Dict[str, Any]) -> None:
+        """写入高频时序数据（InfluxDB 预留，关闭时无操作）。
+
+        Args:
+            kind: 写入类型（frame_record / state_record）。
+            fields: 字段字典。
+        """
+        if self.ts_writer is None:
+            return
+        try:
+            if kind == "frame_record":
+                self.ts_writer.write_frame_record(fields)
+            else:
+                self.ts_writer.write_state_record(fields)
+        except Exception as exc:  # 时序写入失败不影响主流程
+            logger.warning("时序数据写入失败: %s", exc)

@@ -347,6 +347,51 @@ class BehaviorResult:
         }
 
 @dataclass
+class LSTMResult:
+    """LSTM 时序预测结果（LSTM 模块输出）。
+
+    Attributes:
+        prediction: 预测类别（normal/attention_down/fatigue/high_risk）。
+        probability: 预测类别概率（0~1）。
+        trend: 状态变化趋势（stable/declining/deteriorating）。
+        confidence: 预测置信度（与 probability 一致）。
+        prediction_time: 预测时间。
+        extra: 扩展信息。
+    """
+
+    prediction: str = "normal"
+    probability: float = 0.0
+    trend: str = "stable"
+    confidence: float = 0.0
+    prediction_time: Optional[datetime] = None
+    extra: Dict[str, Any] = field(default_factory=dict)
+
+    def __post_init__(self) -> None:
+        """默认时间与置信度初始化。"""
+        if self.prediction_time is None:
+            self.prediction_time = datetime.now()
+        if self.confidence == 0.0:
+            self.confidence = self.probability
+
+    def to_dict(self) -> Dict[str, Any]:
+        """转换为可序列化字典。
+
+        Returns:
+            LSTM 预测结果字典。
+        """
+        return {
+            "prediction": self.prediction,
+            "probability": self.probability,
+            "trend": self.trend,
+            "confidence": self.confidence,
+            "prediction_time": (
+                self.prediction_time.isoformat() if self.prediction_time else None
+            ),
+            "extra": self.extra,
+        }
+
+
+@dataclass
 class RiskPredictionResult:
     """学业风险预测结果（Risk Prediction 模块输出）。
 
