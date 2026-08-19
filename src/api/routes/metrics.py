@@ -29,3 +29,18 @@ def summary():
     records = db_service.query_state_records(limit=100)
     payload = {"total": len(records), "latest": records[0] if records else None}
     return jsonify({"code": 0, "data": payload, "message": "ok"})
+
+
+@bp.route("/fps")
+def fps():
+    """获取后端精确处理帧率。
+
+    Returns:
+        后端统计的 FPS 值。
+    """
+    from src.api.app import pipeline_service
+
+    value = 0.0
+    if pipeline_service is not None:
+        value = float(getattr(pipeline_service, "current_fps", 0.0))
+    return jsonify({"code": 0, "data": {"fps": round(value, 2)}, "message": "ok"})

@@ -91,6 +91,10 @@ class PipelineService:
         self._last_warning_at: dict = {}
         # 行为事件跟踪器
         self.behavior_tracker = BehaviorEventTracker()
+        # 后端精确 FPS 统计
+        self._fps = 0.0
+        self._fps_window_frames = 0
+        self._fps_window_start: Optional[float] = None
         # 实时预测接线（可配置开关，默认开启）
         pred_cfg = get_system().get("prediction", {})
         self.prediction_service: Optional[PredictionService] = None
@@ -122,6 +126,7 @@ class PipelineService:
         self._flush_if_window_elapsed()
         self._track_behavior(cv_result)
         self._maybe_write_warning(cv_result)
+        self._update_fps()
 
         logger.debug(
             "帧 #%s 处理完成，参与度=%s，疲劳=%s",
@@ -345,6 +350,29 @@ class PipelineService:
                 warning_reason=f"model:{result.risk_label}",
                 attention_score=result.risk_probability,
             )
+
+    def _update_fps(self) -> None:
+        """更新后端处理帧率（每秒刷新一次）。"""
+        now = time.monotonic()
+        if self._fps_window_start is None:
+            self._fps_window_start = now
+            self._fps_window_frames = 1
+            return
+        self._fps_window_frames += 1
+        elapsed = now - self._fps_window_start
+        if elapsed >= 1.0:
+            self._fps = self._fps_window_frames / elapsed
+            self._fps_window_start = now
+            self._fps_window_frames = 0
+
+    @property
+    def current_fps(self) -> float:
+        """当前后端处理帧率。
+
+        Returns:
+            最近统计的 FPS 值。
+        """
+        return self._fps
 
     def run(self, max_frames: Optional[int] = None) -> int:
         """运行主循环。

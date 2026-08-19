@@ -74,11 +74,12 @@ class PipelineServiceTest(unittest.TestCase):
         self.assertEqual(len(self.db.state_records), 0)
 
     def test_state_record_flush_after_window(self):
-        """\u65f6\u95f4\u7a97\u53e3\u5230\u671f\u540e\u5199\u5165 StateRecord\u3002"""
+        """时间窗口到期后写入 StateRecord。"""
         self.pipeline.frame_record_enabled = False
         self.camera.read.return_value = mock.MagicMock()
         self.cv.process.return_value = self._make_result(faces=True)
-        seq = [0.0, 0.0, 2.0, 2.0]
+        # 每帧调用 monotonic 3 次（accumulate/flush/update_fps）
+        seq = [0.0, 0.0, 2.0, 2.0, 2.0, 2.0]
         with mock.patch("src.service.pipeline.time.monotonic", side_effect=seq):
             self.pipeline.process_one()
             self.pipeline.process_one()

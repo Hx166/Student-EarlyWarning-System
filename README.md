@@ -18,7 +18,7 @@
 
 项目采用"框架优先、接口优先、模块解耦、逐步完善"的迭代开发策略。
 
-截至 2026-08-14，`docs/2026-08-01起开发计划.md` 规划的四个开发阶段已全部完成：
+截至 2026-08-19，`docs/2026-08-01起开发计划.md` 与 `docs/2026-08-15起开发计划.md` 规划的五个开发阶段已全部完成：
 
 | 阶段 | 主要内容 | 状态 |
 |------|---------|------|
@@ -26,8 +26,7 @@
 | 第二阶段 | 计算机视觉：Camera、FaceDetection、MediaPipe、EyeEAR、HeadPose | ✅ 已完成 |
 | 第三阶段 | 课堂状态分析：Fatigue、Engagement、SQLite 持久化、Flask API、Dashboard 实时展示 | ✅ 已完成 |
 | 第四阶段 | 机器学习：Feature Engineering、XGBoost、Model Management、Risk Prediction | ✅ 已完成 |
-
-下一阶段为「第五阶段：部署与优化」，尚未开始（详见文末「下一阶段计划」）。
+| 第五阶段 | 部署与优化：实时预测接线、预测 API、SHAP、MAR/行为事件、LSTM、数据库迁移、Docker、性能优化 | ✅ 已完成 |
 
 已实现的核心能力：
 
@@ -43,6 +42,10 @@
 * XGBoost 4 类状态分类与学业风险预测
 * 模型管理（版本化保存/加载）
 * Risk Prediction 预测/推理模块
+* 在线风险预测接线（预测 API：/api/predict 等）
+* SHAP 可解释性、LSTM 时序预测
+* 数据库后端抽象（SQLite / MySQL，InfluxDB 预留）
+* Docker 部署、前端 ECharts 本地化
 
 ---
 
@@ -79,7 +82,7 @@ XGBoost
 Dashboard
 ```
 
-> 注：SHAP、LSTM 已实现（第五阶段），其 Dashboard 可视化面板留待第 4 步接入。
+> 注：SHAP、LSTM 已实现（第五阶段）；SHAP 解释面板与 LSTM 趋势展示留待后续接入 Dashboard。
 
 ---
 
@@ -184,7 +187,7 @@ Student-EarlyWarning-System
 | 第二阶段（计算机视觉） | ✅ 已完成 |
 | 第三阶段（课堂状态分析） | ✅ 已完成 |
 | 第四阶段（机器学习） | ✅ 已完成 |
-| 第五阶段（部署与优化） | 🔄 进行中（第 1~3 步完成） |
+| 第五阶段（部署与优化） | ✅ 已完成 |
 
 ---
 
@@ -223,14 +226,15 @@ CV模块开发
 
 ---
 
-# 四阶段完成情况
+# 五阶段完成情况
 
-第一阶段–第四阶段已全部完成：
+第一阶段–第五阶段已全部完成：
 
 * 第一阶段：项目框架（Scaffold）完成，Camera/CV/Database/API/Dashboard/Config/Logger 框架可运行，`python src/main.py` 可启动完整数据流。
 * 第二阶段：CV 模块完成（Camera、FaceDetection、MediaPipe、EyeEAR、HeadPose），视觉数据实时产生。
 * 第三阶段：课堂状态分析完成（Fatigue、Engagement、SQLite 持久化、Flask API、Dashboard 实时展示）。
 * 第四阶段：机器学习完成（Feature Engineering、XGBoost、Model Management、Risk Prediction），并完成相关测试。
+* 第五阶段：部署与优化完成（实时预测接线、预测 API、SHAP、MAR/打哈欠与行为事件、LSTM、数据库后端抽象、Docker、多人逐人分析、后端精确 FPS）。
 
 ---
 
@@ -259,30 +263,31 @@ CV模块开发
 | SHAP 可解释性（ShapExplainer） | ✅（第五阶段） |
 | LSTM 时序预测 | ✅（第五阶段） |
 | 数据库后端抽象（SQLite/MySQL/InfluxDB 预留） | ✅（第五阶段） |
+| Docker 部署（Dockerfile / docker-compose） | ✅（第五阶段） |
+| 前端 ECharts 本地化（离线/内网可用） | ✅（第五阶段） |
+| 多人逐人分析 + 后端精确 FPS | ✅（第五阶段） |
 
 ---
 
 # 已知限制
 
-* Docker 部署、前端 ECharts 本地化尚未完成（第五阶段第 4 步）。
-* 多人场景下视觉分析仅处理第一张人脸（`CVProcessor` 取 `faces[0]`），逐人分析待第 4 步。
-* Pipeline 采集/视觉/预测/写入尚未多线程/异步解耦；后端精确 FPS 统计待做。
+* Pipeline 采集/视觉/预测/写入尚未多线程/异步解耦（当前单线程串行）。
 * InfluxDB 仅预留接口（默认关闭），尚未接入真实时序写入。
-* Dashboard 的 SHAP 风险解释面板尚未接入（ShapExplainer 模块已完成）。
+* Dashboard 的 SHAP 风险解释面板尚未接入（ShapExplainer 模块已完成，展示待后续）。
+* GPU 推理尚未接入（默认 CPU）。
+* 多人逐人分析已在 CV 层完成，但数据库/预警链路仍为单学生（多学生持久化待后续）。
 * 多人/多摄像头同步、用户权限系统、云部署属后续计划。
-* Dashboard 依赖 ECharts CDN（待第 4 步本地化），离线/内网环境需配置本地资源。
-* 实时 FPS 为前端基于状态记录时间间隔估算，非后端精确框速（待第 4 步）。
 
 ---
 
-# 下一阶段计划（第五阶段 · 剩余工作）
+# 下一阶段计划（V1.1+）
 
-* Docker 部署（Dockerfile、docker-compose）。
-* ECharts 本地化（移除 CDN 依赖）。
-* 多人逐人分析、Pipeline 多线程/异步解耦、后端精确 FPS。
+* Pipeline 多线程/异步解耦（采集、视觉、预测、写入分离）。
 * SHAP 风险解释面板接入 Dashboard。
 * InfluxDB 真实时序写入接入。
-* 填充 docs/08-测试/ 文档并完成全量测试与文档收尾。
+* 多学生持久化与逐人预警链路。
+* GPU 推理（MediaPipe/XGBoost/LSTM）。
+* 多摄像头同步、用户权限系统、云服务器集群部署。
 
 ---
 

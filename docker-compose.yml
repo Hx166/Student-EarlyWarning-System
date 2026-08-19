@@ -1,0 +1,52 @@
+# docker-compose.yml —— 一键编排部署（App + MySQL + InfluxDB 可选）
+#
+# 默认：App 使用 SQLite（data/ 卷挂载）；MySQL 与 InfluxDB 为可选服务。
+# 切换 MySQL：将 configs/database.yaml 的 database.backend 改为 "mysql"，
+#            并配置 mysql 段（host 用服务名 mysql）。
+
+services:
+  app:
+    build: .
+    container_name: early-warning-app
+    ports:
+      - "5000:5000"
+    volumes:
+      - ./data:/app/data
+      - ./logs:/app/logs
+      - ./models:/app/models
+    depends_on:
+      - mysql
+      - influxdb
+    restart: unless-stopped
+
+  mysql:
+    image: mysql:8.0
+    container_name: early-warning-mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: early_warning
+    ports:
+      - "3306:3306"
+    volumes:
+      - mysql-data:/var/lib/mysql
+    restart: unless-stopped
+
+  influxdb:
+    image: influxdb:2.7
+    container_name: early-warning-influxdb
+    environment:
+      DOCKER_INFLUXDB_INIT_MODE: setup
+      DOCKER_INFLUXDB_INIT_USERNAME: admin
+      DOCKER_INFLUXDB_INIT_PASSWORD: password123
+      DOCKER_INFLUXDB_INIT_ORG: early-warning
+      DOCKER_INFLUXDB_INIT_BUCKET: early_warning
+      DOCKER_INFLUXDB_INIT_ADMIN_TOKEN: token
+    ports:
+      - "8086:8086"
+    volumes:
+      - influxdb-data:/var/lib/influxdb2
+    restart: unless-stopped
+
+volumes:
+  mysql-data:
+  influxdb-data:

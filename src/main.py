@@ -66,7 +66,7 @@ def _setup_components():
     return db, camera, cv, pipeline
 
 
-def _run_flask(host: str, port: int, debug: bool, database=None):
+def _run_flask(host: str, port: int, debug: bool, database=None, pipeline=None):
     """启动 Flask API 服务。
 
     Args:
@@ -74,10 +74,11 @@ def _run_flask(host: str, port: int, debug: bool, database=None):
         port: 监听端口。
         debug: 是否开启调试模式。
         database: 可选数据库服务，注入 Flask 供查询接口使用。
+        pipeline: 可选主流程服务，注入 Flask 供运行指标接口使用。
     """
     from src.api import create_app
 
-    app = create_app(database=database)
+    app = create_app(database=database, pipeline=pipeline)
     logger.info("Flask 服务启动于 %s:%s", host, port)
     app.run(host=host, port=port, debug=debug)
 
@@ -112,7 +113,7 @@ def main() -> None:
     flask_thread = threading.Thread(
         target=_run_flask,
         args=(server.get("host", "0.0.0.0"), server.get("port", 5000),
-              server.get("debug", False), db),
+              server.get("debug", False), db, pipeline),
         daemon=True,
     )
     flask_thread.start()

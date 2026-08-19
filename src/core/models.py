@@ -437,3 +437,37 @@ class RiskPredictionResult:
             ),
             "extra": self.extra,
         }
+
+
+@dataclass
+class FaceAnalysis:
+    """单张人脸的完整视觉分析结果（多人逐人分析）。
+
+    Attributes:
+        face_id: 人脸编号。
+        eye: 眼部状态结果。
+        head_pose: 头部姿态结果。
+        mouth: 嘴部状态结果。
+        fatigue: 疲劳评估结果。
+        engagement: 参与度评估结果。
+    """
+
+    face_id: int = 0
+    eye: Optional[EyeState] = None
+    head_pose: Optional[HeadPoseResult] = None
+    mouth: Optional[MouthState] = None
+    fatigue: Optional[FatigueResult] = None
+    engagement: Optional[EngagementResult] = None
+
+    def __post_init__(self) -> None:
+        """默认空结果初始化。"""
+        if self.eye is None:
+            self.eye = EyeState()
+        if self.head_pose is None:
+            self.head_pose = HeadPoseResult()
+        if self.mouth is None:
+            self.mouth = MouthState()
+        if self.fatigue is None:
+            self.fatigue = FatigueResult()
+        if self.engagement is None:
+            self.engagement = EngagementResult()

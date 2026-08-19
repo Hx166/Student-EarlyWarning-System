@@ -15,6 +15,35 @@
 
 ---
 
+## v1.0.0
+
+发布日期：2026-08-19
+
+说明：第五阶段（部署与优化）第 4 步完成，系统演进为可部署、可上线版本。
+
+### 新增 / 完成
+
+- Docker 部署：Dockerfile（Python 3.11 + 依赖 + 源码）、docker-compose.yml（App + MySQL + InfluxDB 可选）。
+- 前端离线化：ECharts 本地资源（`src/frontend/static/js/echarts.min.js`），移除 CDN 依赖。
+- 多人逐人分析：CVProcessor 对所有检测人脸逐人分析（FaceAnalysis），主脸结果保留顶层字段向后兼容。
+- 后端精确 FPS：PipelineService 统计处理帧率，新增 GET /api/metrics/fps，前端改为消费后端 FPS。
+- 文档收尾：填充 docs/07-部署/（安装说明/环境配置/Docker/发布流程）与 docs/08-测试/（单元/集成/性能/Bug记录）；更新 README、任务看板。
+
+### 测试
+
+- 新增多人逐人分析、后端 FPS 相关测试。
+- 全量测试：160 passed, 8 skipped（8 个 skip 为可选依赖未安装：cv2、xgboost、torch）。
+
+### 已知限制（收尾固化）
+
+- Pipeline 采集/视觉/预测/写入尚未多线程/异步解耦（单线程串行）。
+- InfluxDB 仅预留接口（默认关闭），未接入真实时序写入。
+- Dashboard 的 SHAP 风险解释面板尚未接入（ShapExplainer 模块已完成）。
+- GPU 推理未接入（默认 CPU）。
+- 多人逐人分析已在 CV 层完成，数据库/预警链路仍为单学生。
+
+---
+
 ## v0.5.0
 
 发布日期：2026-08-15
@@ -35,11 +64,11 @@
 ### 测试
 
 - 第五阶段第 1~3 步新增测试：第 1 步 14 例、第 2 步 19 例、第 3 步 15 例。
-- 全量测试：156 passed, 6 skipped（6 个 cv2/mediapipe 环境用例）。
+- 全量测试：154 passed, 8 skipped（6 个 cv2/mediapipe 环境用例，2 个 torch 未安装跳过的 LSTM 集成用例）。
 
 ### 待完成（第 4 步）
 
-- Docker 部署、ECharts 本地化、多人逐人分析、多线程 Pipeline、后端精确 FPS、docs/08-测试 填充、文档收尾。
+- 见 v1.0.0（Docker 部署、ECharts 本地化、多人逐人分析、后端精确 FPS、文档收尾）。
 
 ---
 

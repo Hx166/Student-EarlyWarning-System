@@ -21,16 +21,6 @@ function fmt(v, digits) {
     return Number(v).toFixed(digits);
 }
 
-// FPS \u4f30\u7b97\uff1a\u57fa\u4e8e\u6700\u8fd1\u4e24\u6761\u8bb0\u5f55\u7684\u65f6\u95f4\u95f4\u9694
-let lastFetchTime = null;
-function estimateFps(nowTs) {
-    if (lastFetchTime) {
-        const dt = (nowTs - lastFetchTime) / 1000;
-        if (dt > 0) return (1 / dt).toFixed(1);
-    }
-    return "--";
-}
-
 // \u66f4\u65b0\u5b9e\u65f6\u6307\u6807\u5361
 function renderMetrics(latest) {
     if (!latest) return;
@@ -87,10 +77,10 @@ async function fetchJson(url) {
 // \u4e3b\u5237\u65b0\u6d41\u7a0b
 async function refresh() {
     try {
-        const nowTs = Date.now();
-        const [statePayload, warningPayload] = await Promise.all([
+        const [statePayload, warningPayload, fpsPayload] = await Promise.all([
             fetchJson("/api/state?limit=50"),
             fetchJson("/api/warnings?limit=20"),
+            fetchJson("/api/metrics/fps"),
         ]);
 
         if (statePayload.code === 0) {
@@ -104,8 +94,10 @@ async function refresh() {
 
             renderStateTable(records);
             renderMetrics(records[0] || null);
-            document.getElementById("m-fps").textContent = estimateFps(nowTs);
-            lastFetchTime = nowTs;
+        }
+
+        if (fpsPayload && fpsPayload.code === 0) {
+            document.getElementById("m-fps").textContent = fmt(fpsPayload.data.fps, 1);
         }
 
         if (warningPayload.code === 0) {
