@@ -21,6 +21,7 @@ import pandas as pd
 from src.models.features.definitions import (
     FEATURE_VECTOR_COLUMNS,
     NUMERIC_STATE_COLUMNS,
+    STAT_TO_FEATURE_MAPPING,
     STATISTICAL_FEATURE_COLUMNS,
 )
 from src.models.features.descriptors import (
@@ -211,6 +212,9 @@ class FeatureBuilder:
     def _build_feature_vector(self, stat_df: pd.DataFrame) -> pd.DataFrame:
         """从统计特征与行为特征构建最终 Feature Vector。
 
+        将聚合统计列（如 avg_ear_mean）重命名为特征向量列（如 ear_mean），
+        再按 FEATURE_VECTOR_COLUMNS 顺序输出。
+
         Args:
             stat_df: 包含统计特征与行为统计列的特征 DataFrame。
 
@@ -218,6 +222,7 @@ class FeatureBuilder:
             特征向量 DataFrame（列顺序与 FEATURE_VECTOR_COLUMNS 一致）。
         """
         desired = FEATURE_VECTOR_COLUMNS
+        stat_df = stat_df.rename(columns=STAT_TO_FEATURE_MAPPING)
         build_columns = [col for col in desired if col != "blink_rate"]
         for col in build_columns:
             if col not in stat_df.columns:

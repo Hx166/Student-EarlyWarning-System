@@ -149,6 +149,48 @@ class FeatureBuilderTest(unittest.TestCase):
         for col in required_stat:
             self.assertIn(col, features.columns)
 
+    def test_build_statistical_features_nonzero(self):
+        """修复后 ear_mean 等 8 个统计特征应取到非零值而非恒 0。"""
+        features = self.builder.build(self.state_records, self.behavior_records)
+        last = features.iloc[-1]
+        self.assertGreater(float(last["ear_mean"]), 0.0)
+        self.assertGreater(float(last["ear_std"]), 0.0)
+        self.assertGreater(float(last["pitch_mean"]), 0.0)
+        self.assertGreater(float(last["fatigue_score"]), 0.0)
+        self.assertGreater(float(last["attention_score"]), 0.0)
+        self.assertAlmostEqual(float(last["perclos"]), 0.12, places=6)
+        self.assertAlmostEqual(float(last["yaw_mean"]), -2.0, places=6)
+        self.assertAlmostEqual(float(last["roll_mean"]), 1.0, places=6)
+
+    def test_build_feature_vector_maps_aggregated_columns(self):
+        """聚合统计列应正确重命名为特征向量列（非恒 0）。"""
+        import pandas as pd
+
+        stat_df = pd.DataFrame(
+            [
+                {
+                    "avg_ear_mean": 0.31,
+                    "avg_ear_std": 0.02,
+                    "perclos_mean": 0.25,
+                    "avg_pitch_mean": 8.0,
+                    "avg_yaw_mean": -2.0,
+                    "avg_roll_mean": 1.5,
+                    "fatigue_score_mean": 35.0,
+                    "attention_score_mean": 70.0,
+                }
+            ]
+        )
+        vector = self.builder._build_feature_vector(stat_df)
+        self.assertEqual(list(vector.columns), FEATURE_VECTOR_COLUMNS)
+        self.assertAlmostEqual(float(vector["ear_mean"].iloc[0]), 0.31, places=6)
+        self.assertAlmostEqual(float(vector["ear_std"].iloc[0]), 0.02, places=6)
+        self.assertAlmostEqual(float(vector["perclos"].iloc[0]), 0.25, places=6)
+        self.assertAlmostEqual(float(vector["pitch_mean"].iloc[0]), 8.0, places=6)
+        self.assertAlmostEqual(float(vector["yaw_mean"].iloc[0]), -2.0, places=6)
+        self.assertAlmostEqual(float(vector["roll_mean"].iloc[0]), 1.5, places=6)
+        self.assertAlmostEqual(float(vector["fatigue_score"].iloc[0]), 35.0, places=6)
+        self.assertAlmostEqual(float(vector["attention_score"].iloc[0]), 70.0, places=6)
+
 
 class StatisticalFunctionsTest(unittest.TestCase):
     """统计描述函数测试。"""

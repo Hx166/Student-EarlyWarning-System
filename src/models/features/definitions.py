@@ -111,6 +111,20 @@ WINDOW_STAT_FUNCTIONS: Dict[str, str] = {
     "attention_score": "mean",
 }
 
+# 聚合统计列到最终特征向量列的映射
+# 说明：特征向量列名（ear_mean/pitch_mean 等）去掉了原始状态列的 avg_ 前缀，
+# 而 perclos/fatigue_score/attention_score 保留原名，无法用简单拼接推导，需显式映射。
+STAT_TO_FEATURE_MAPPING: Dict[str, str] = {
+    "avg_ear_mean": "ear_mean",
+    "avg_ear_std": "ear_std",
+    "perclos_mean": "perclos",
+    "avg_pitch_mean": "pitch_mean",
+    "avg_yaw_mean": "yaw_mean",
+    "avg_roll_mean": "roll_mean",
+    "fatigue_score_mean": "fatigue_score",
+    "attention_score_mean": "attention_score",
+}
+
 # 行为事件类型（与 docs/03-数据库/数据库设计.md 一致）
 BEHAVIOR_TYPES: List[str] = [
     "blink",
@@ -134,4 +148,5 @@ __all__ = [
     "FEATURE_VECTOR_STAT_COLUMNS",
     "FEATURE_VECTOR_RAW_COLUMNS",
     "WINDOW_STAT_FUNCTIONS",
+    "STAT_TO_FEATURE_MAPPING",
 ]
