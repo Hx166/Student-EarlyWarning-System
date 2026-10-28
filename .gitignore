@@ -16,3 +16,5 @@ venv/
 /models/
 /outputs/
 /.pytest_cache/
+# pytest 在缓存目录不可写时于仓库根目录生成的临时目录
+/pytest-cache-files-*/

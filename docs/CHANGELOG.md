@@ -12,6 +12,46 @@
 | v0.4.0 | 第四阶段（机器学习） |
 | v0.5.0 | 第五阶段中间成果（实时预测接线 + 预测 API + SHAP） |
 | v1.0.0 | 第五阶段完成（LSTM + 数据库迁移 + Docker + 性能优化） |
+| v1.1.0 | 第六阶段：DAiSEE Engagement 四分类（进行中） |
+
+---
+
+## v1.1.0-dev（进行中）
+
+更新日期：2026-10-28
+
+说明：第六阶段（数据集与训练）启动。计划与验收标准见 `docs/2026-10-28起开发计划.md`，数据规范见 `docs/05-机器学习/数据集与标注.md`，V1 决策见 `docs/09-项目管理/决策记录.md`。
+
+### 已完成（2026-09-17 ~ 2026-10-28）
+
+- 离线处理链路：`VideoClock`（视频时间轴替代墙钟）、`OfflineFatigueAnalyzer`（离线疲劳适配）、`OfflineVideoProcessor`（视频 → 秒级 StateRecord / BehaviorRecord → 特征 CSV）。
+- PoC 脚本：`scripts/sample_videos.py`、`scripts/offline_poc_run.py`、`scripts/offline_poc_report.py`、`scripts/poc_labels.py`。
+- 特征修复：新增 `STAT_TO_FEATURE_MAPPING`，`avg_ear_mean` 等 8 个聚合列正确映射为 `ear_mean` 等特征向量列。
+- 测试：新增 11 项离线 pytest，全项目测试用例 181 项。
+
+### 2026-10-28 数据核查（只读）
+
+- DAiSEE 位于 `D:\数据集\DAiSEE\DAiSEE`，仓库内 `datasets/raw/daisee` 为空，数据未复制。
+- 9067 个视频（.avi 8231 / .mp4 836）、8571 条标签记录（可关联 8570）、113 名被试；官方三集被试无交集。
+- Engagement 分布：0: 61、1: 440、2: 4312、3: 3758。
+- 497 个视频无标签、1 条标签无视频；全量元数据均为 640×480 / 30fps，帧数 300 帧 8633 条，302 帧 214 条，314 帧 219 条，288 帧 1 条。
+
+### 阶段 B 完成（2026-10-28）
+
+- 新增 `scripts/check_daisee.py`：全量元数据探测、每 split 抽样首帧解码、标签关联、manifest 与异常清单导出。
+- 产出 `datasets/processed/daisee_manifest.csv`（9067 行 × 16 列）、`daisee_issues.csv`（932 行：无标签 497、孤立标签 1、帧数偏差 434）。
+- 报告 `docs/05-机器学习/DAiSEE数据核查报告.md`；测试 `tests/offline/test_daisee_manifest.py`（1 项）。
+- 抽样解码 60/60 通过；未发现坏文件；原始数据集未被写入。
+
+### 已确认阻塞
+
+- 离线特征 `label` 为字符串，`XGBoostModel.fit` 只接受整型标签，缺 Engagement 独立映射。
+- 训练片段 10 秒与在线 30 秒窗口不一致，需在集成前统一。
+- Level 0 仅 61 条（Test 4 条），该类指标不可靠。
+
+### 本阶段计划（验收 2026-11-30）
+
+- 阶段 C 片段级特征验证、阶段 D 特征表、阶段 E 四分类训练与消融、阶段 F 模型集成、阶段 G 摄像头与回放演示（v1.1.0）。
 
 ---
 
