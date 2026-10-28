@@ -43,6 +43,14 @@
 - 报告 `docs/05-机器学习/DAiSEE数据核查报告.md`；测试 `tests/offline/test_daisee_manifest.py`（1 项）。
 - 抽样解码 60/60 通过；未发现坏文件；原始数据集未被写入。
 
+### 阶段 C 完成（2026-10-28）
+
+- 新增 `scripts/stage_c_features.py`：固定抽样、单条试跑、批量处理、A/B 聚合对比与特征导出。
+- 产出 `datasets/processed/stage_c_sample.csv`（20 条）、`stage_c_agg_compare.csv`（220 行）、`datasets/features/stage_c_features.csv`（20 行）。
+- 报告 `docs/05-机器学习/阶段C特征验证报告.md`；测试 `tests/offline/test_stage_c_features.py`（2 项）。
+- 结果：20/20 片段成功，NaN 0、无常量特征；18/20 条 A/B 一致，2 条异常帧片段存在窗口边界差异；单条均值 11.656 秒，全量约 27.75 小时。
+- 决策：聚合统一取 A（D-008）；`--mode all` 与 `training.target` 两处小修移至阶段 D（D-009）。
+
 ### 已确认阻塞
 
 - 离线特征 `label` 为字符串，`XGBoostModel.fit` 只接受整型标签，缺 Engagement 独立映射。
@@ -51,7 +59,7 @@
 
 ### 本阶段计划（验收 2026-11-30）
 
-- 阶段 C 片段级特征验证、阶段 D 特征表、阶段 E 四分类训练与消融、阶段 F 模型集成、阶段 G 摄像头与回放演示（v1.1.0）。
+- 阶段 D 特征表、阶段 E 四分类训练与消融、阶段 F 模型集成、阶段 G 摄像头与回放演示（v1.1.0）。
 
 ---
 

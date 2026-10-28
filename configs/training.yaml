@@ -2,6 +2,7 @@
 training:
   model_dir: "models"
   datasets_dir: "datasets"
+  daisee_root: "D:/数据集/DAiSEE/DAiSEE"
   test_size: 0.2
   random_state: 42
   target: "attention_score"
