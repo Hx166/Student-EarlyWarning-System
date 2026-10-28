@@ -7,3 +7,12 @@ venv/
 .env
 *.log
 *.db
+
+# 运行时产物不入库（AGENTS.md §12）。
+# 用前导斜杠锁定仓库根目录，避免误伤 src/models、src/logs 等同名源码目录。
+/logs/
+/data/
+/datasets/
+/models/
+/outputs/
+/.pytest_cache/
