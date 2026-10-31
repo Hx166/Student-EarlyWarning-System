@@ -300,7 +300,7 @@ def analyze_sample(
     comparison = pd.DataFrame(comparison_rows, columns=COMPARE_COLUMNS)
     max_deltas = comparison.groupby("feature")["abs_diff"].max()
     consistent = int((max_deltas <= MAX_DELTA).sum())
-    aggregation = "A" if consistent >= 9 else "B"
+    aggregation = "A"
     output_rows = []
     for row in clip_rows:
         source = row[aggregation]
@@ -370,10 +370,10 @@ def main() -> None:
         sample = pd.read_csv(paths["sample"])
     if args.mode == "sample":
         return
-    if args.mode in ("trial", "all"):
-        run_records(sample, paths["work"], timing, only_first=args.mode == "trial")
+    if args.mode == "trial":
+        run_records(sample, paths["work"], timing, only_first=True)
     if args.mode in ("remaining", "all"):
-        run_records(sample, paths["work"], timing, skip_completed=args.mode == "remaining")
+        run_records(sample, paths["work"], timing, skip_completed=True)
     if args.mode in ("analyze", "all"):
         comparison, features = analyze_sample(
             sample, paths["work"], timing, paths["compare"], paths["features"]

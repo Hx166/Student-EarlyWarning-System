@@ -51,6 +51,15 @@
 - 结果：20/20 片段成功，NaN 0、无常量特征；18/20 条 A/B 一致，2 条异常帧片段存在窗口边界差异；单条均值 11.656 秒，全量约 27.75 小时。
 - 决策：聚合统一取 A（D-008）；`--mode all` 与 `training.target` 两处小修移至阶段 D（D-009）。
 
+### 阶段 D 完成（2026-10-31）
+
+- 新增 `scripts/build_daisee_features.py`：多进程提取、原子断点续跑、失败率门禁、合并校验与统计。
+- 产出 `datasets/features/daisee_features.csv`（8570 行 × 20 列，SHA256 前 16 位 `63c0b6ffacb7dd93`）、`daisee_features_stats.csv`、`outputs/daisee_extract/{timings,failures}.csv`。
+- 报告 `docs/05-机器学习/阶段D特征表报告.md`；测试 `tests/offline/test_build_daisee_features.py`（2 项）。
+- 结果：split 5357/1429/1784，四等级 61/440/4312/3757，11 特征 NaN 0、无常量列、失败 0；与 C 的 20 条最大差异 1.42e-14；6/4 workers 活跃耗时约 4.59 小时。
+- 异常：31 条 Test 片段实际 EOF 为 293/294/296 帧（文件头 300），按实际可解码帧记录；1 条 288 帧 Validation 片段无标签，未进入特征表。
+- 前置小修完成：`stage_c_features.py` 统一 A 口径与 `--mode all`，`training.target=engagement`。
+
 ### 已确认阻塞
 
 - 离线特征 `label` 为字符串，`XGBoostModel.fit` 只接受整型标签，缺 Engagement 独立映射。
@@ -59,7 +68,7 @@
 
 ### 本阶段计划（验收 2026-11-30）
 
-- 阶段 D 特征表、阶段 E 四分类训练与消融、阶段 F 模型集成、阶段 G 摄像头与回放演示（v1.1.0）。
+- 阶段 E 四分类训练与消融、阶段 F 模型集成、阶段 G 摄像头与回放演示（v1.1.0）。
 
 ---
 
