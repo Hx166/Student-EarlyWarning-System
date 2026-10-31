@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>模型说明 - 学生学业状态分析与预警系统</title>
+    <script src="/static/js/echarts.min.js"></script>
+    <link rel="stylesheet" href="/static/css/style.css">
+</head>
+<body>
+    <header class="topbar">
+        <h1>学生学业状态分析与预警系统</h1>
+        <span class="badge">基线模型</span>
+    </header>
+    <nav class="main-nav" aria-label="主导航">
+        <a href="/">实时看板</a>
+        <a href="/playback">视频回放</a>
+        <a class="active" href="/model">模型说明</a>
+    </nav>
+
+    <main class="container page-grid">
+        <section class="card wide-card">
+            <h2>模型概览</h2>
+            <div id="model-overview" class="model-overview">正在读取模型信息...</div>
+        </section>
+        <section class="card wide-card">
+            <h2>Validation / Test 指标</h2>
+            <div id="metric-tables"></div>
+        </section>
+        <section class="card wide-card">
+            <h2>Test 每类指标</h2>
+            <div id="per-class-table"></div>
+        </section>
+        <section class="card wide-card">
+            <h2>Test 混淆矩阵</h2>
+            <div id="confusion-matrix"></div>
+        </section>
+        <section class="card wide-card">
+            <h2>消融与局限性</h2>
+            <div id="limitations"></div>
+        </section>
+    </main>
+    <script id="model-data" type="application/json">{{ model_data | tojson }}</script>
+    <script src="/static/js/model.js"></script>
+</body>
+</html>

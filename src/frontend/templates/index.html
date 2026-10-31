@@ -13,8 +13,21 @@
         <h1>学生学业状态分析与预警系统</h1>
         <span id="health-status" class="badge">检测中...</span>
     </header>
+    <nav class="main-nav" aria-label="主导航">
+        <a class="active" href="/">实时看板</a>
+        <a href="/playback">视频回放</a>
+        <a href="/model">模型说明</a>
+    </nav>
 
     <main class="container">
+        <section class="card live-card">
+            <h2>实时画面</h2>
+            <div id="live-placeholder" class="live-placeholder">
+                <span class="pulse-dot"></span>
+                等待画面
+            </div>
+        </section>
+
         <section class="card metrics-card">
             <h2>实时指标</h2>
             <div class="metrics-grid">

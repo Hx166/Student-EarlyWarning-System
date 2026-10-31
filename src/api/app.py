@@ -59,9 +59,10 @@ def _register_routes(app: Flask) -> None:
     Args:
         app: Flask 应用实例。
     """
-    from src.api.routes import dashboard, metrics, predict, warning
+    from src.api.routes import dashboard, demo, metrics, predict, warning
 
     app.register_blueprint(dashboard.bp)
     app.register_blueprint(metrics.bp)
     app.register_blueprint(warning.bp)
     app.register_blueprint(predict.bp)
+    app.register_blueprint(demo.bp)

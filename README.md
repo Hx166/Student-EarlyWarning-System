@@ -27,7 +27,7 @@
 | 第三阶段 | 课堂状态分析：Fatigue、Engagement、SQLite 持久化、Flask API、Dashboard 实时展示 | ✅ 已完成 |
 | 第四阶段 | 机器学习：Feature Engineering、XGBoost、Model Management、Risk Prediction | ✅ 已完成 |
 | 第五阶段 | 部署与优化：实时预测接线、预测 API、SHAP、MAR/行为事件、LSTM、数据库迁移、Docker、性能优化 | ✅ 已完成 |
-| 第六阶段 | 数据集与训练：DAiSEE 数据核查、Engagement 四分类映射、片段级特征导出、XGBoost 训练与评估 | 🔄 进行中 |
+| 第六阶段 | 数据集与训练：DAiSEE 数据核查、Engagement 四分类映射、片段级特征导出、XGBoost 训练与评估 | ✅ 已完成（实时画面 P1-01 待做） |
 
 已实现的核心能力：
 
@@ -189,7 +189,7 @@ Student-EarlyWarning-System
 | 第三阶段（课堂状态分析） | ✅ 已完成 |
 | 第四阶段（机器学习） | ✅ 已完成 |
 | 第五阶段（部署与优化） | ✅ 已完成 |
-| 第六阶段（数据集与训练） | 🔄 进行中（验收 2026-11-30） |
+| 第六阶段（数据集与训练） | ✅ 已完成（实时画面 P1-01 待做） |
 
 ---
 
@@ -286,7 +286,8 @@ CV模块开发
 
 # 下一阶段计划（V1.1+）
 
-* 第六阶段（进行中）：DAiSEE 数据核查、Engagement 四分类（0~3）、片段级特征导出、XGBoost 训练与评估，验收 2026-11-30（`docs/2026-10-28起开发计划.md`）。
+* 第六阶段（已完成）：DAiSEE 数据核查、Engagement 四分类（0~3）、片段级特征导出、XGBoost 训练与评估（`docs/2026-10-28起开发计划.md`）。
+* P1-01 实时画面：看板摄像头 MJPEG 流与状态降级（`docs/01-需求分析/实时画面需求.md`）。
 * Pipeline 多线程/异步解耦（采集、视觉、预测、写入分离）。
 * SHAP 风险解释面板接入 Dashboard。
 * InfluxDB 真实时序写入接入。

@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import unittest
+from datetime import datetime, timedelta
 from unittest import mock
 
 import numpy as np
@@ -154,6 +155,17 @@ class PipelinePredictionTest(unittest.TestCase):
         self.assertEqual(
             self.pipeline.last_prediction["probabilities"]["level_3"], 0.8
         )
+
+    def test_recent_behaviors_limited_to_sixty_seconds(self):
+        """行为上下文只保留最近 60 秒。"""
+        now = datetime(2026, 10, 31, 12, 0, 0)
+        self.pipeline._recent_behaviors = [
+            {"behavior_type": "blink", "start_time": (now - timedelta(seconds=61)).isoformat()},
+            {"behavior_type": "head_down", "start_time": (now - timedelta(seconds=30)).isoformat()},
+        ]
+        self.pipeline._trim_recent_behaviors(now)
+        self.assertEqual(len(self.pipeline._recent_behaviors), 1)
+        self.assertEqual(self.pipeline._recent_behaviors[0]["behavior_type"], "head_down")
 
 
 if __name__ == "__main__":

@@ -13,7 +13,7 @@ StateRecord 每秒聚合一次，WarningLog 存储风险预警。
 from __future__ import annotations
 
 import time
-from datetime import datetime
+from datetime import datetime, timedelta
 from typing import Optional
 
 from src.camera import Camera
@@ -230,7 +230,8 @@ class PipelineService:
         Args:
             cv_result: 视觉处理结果。
         """
-        events = self.behavior_tracker.update(cv_result, datetime.now())
+        now = datetime.now()
+        events = self.behavior_tracker.update(cv_result, now)
         for event in events:
             self._recent_behaviors.append(
                 {
@@ -250,6 +251,23 @@ class PipelineService:
             )
             logger.debug("写入行为事件 type=%s duration=%.2f",
                          event.behavior_type, event.duration)
+        self._trim_recent_behaviors(now)
+
+    def _trim_recent_behaviors(self, now: datetime) -> None:
+        """只保留 start_time 位于最近 60 秒的行为事件。"""
+        cutoff = now - timedelta(seconds=60)
+        recent = []
+        for record in self._recent_behaviors:
+            start_text = record.get("start_time")
+            if not start_text:
+                continue
+            try:
+                start_time = datetime.fromisoformat(str(start_text))
+            except ValueError:
+                continue
+            if start_time >= cutoff:
+                recent.append(record)
+        self._recent_behaviors = recent
 
     def _maybe_write_warning(self, cv_result) -> None:
         """根据疲劳与参与度评分判断是否触发预警。

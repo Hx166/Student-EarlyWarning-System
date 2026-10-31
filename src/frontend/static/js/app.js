@@ -23,7 +23,12 @@ function fmt(v, digits) {
 
 // \u66f4\u65b0\u5b9e\u65f6\u6307\u6807\u5361
 function renderMetrics(latest) {
-    if (!latest) return;
+    const placeholder = document.getElementById("live-placeholder");
+    if (!latest) {
+        placeholder.innerHTML = '<span class="pulse-dot"></span>\u7b49\u5f85\u753b\u9762';
+        return;
+    }
+    placeholder.innerHTML = '<span class="pulse-dot"></span>\u5b9e\u65f6\u6570\u636e\u5df2\u8fde\u63a5';
     document.getElementById("m-ear").textContent = fmt(latest.avg_ear, 3);
     document.getElementById("m-perclos").textContent = fmt(latest.perclos, 3);
     document.getElementById("m-pitch").textContent = fmt(latest.avg_pitch, 1);
@@ -142,6 +147,8 @@ async function refresh() {
         document.getElementById("health-status").className = "badge ok";
         document.getElementById("health-status").textContent = "\u5728\u7ebf";
     } catch (e) {
+        document.getElementById("live-placeholder").innerHTML =
+            '<span class="pulse-dot"></span>\u7b49\u5f85\u753b\u9762';
         document.getElementById("health-status").className = "badge err";
         document.getElementById("health-status").textContent = "\u79bb\u7ebf";
     }

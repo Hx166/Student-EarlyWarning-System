@@ -19,6 +19,23 @@ body {
 
 .topbar h1 { font-size: 20px; font-weight: 600; }
 
+.main-nav {
+    display: flex;
+    gap: 4px;
+    padding: 0 24px;
+    background: #fff;
+    border-bottom: 1px solid #e5e8eb;
+}
+.main-nav a {
+    padding: 12px 16px;
+    color: #59636e;
+    text-decoration: none;
+    border-bottom: 3px solid transparent;
+    font-size: 14px;
+}
+.main-nav a:hover { color: #1f3448; background: #f7f9fb; }
+.main-nav a.active { color: #1f6f8b; border-bottom-color: #1f6f8b; font-weight: 600; }
+
 .badge {
     padding: 4px 12px;
     border-radius: 12px;
@@ -110,6 +127,88 @@ body {
     transition: width 0.25s ease;
 }
 
+.live-card,
+.wide-card { grid-column: 1 / -1; }
+.live-placeholder {
+    min-height: 150px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    color: #6f7b86;
+    background: #f7f9fb;
+    border: 1px dashed #ccd4da;
+    border-radius: 8px;
+}
+.pulse-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: #1f6f8b;
+    box-shadow: 0 0 0 5px rgba(31, 111, 139, 0.12);
+}
+.playback-controls {
+    display: grid;
+    grid-template-columns: auto minmax(260px, 1fr) auto;
+    gap: 12px;
+    align-items: center;
+}
+.playback-controls label { font-size: 13px; color: #667; }
+select, button {
+    min-height: 38px;
+    border: 1px solid #cfd7dd;
+    border-radius: 6px;
+    padding: 8px 12px;
+    font: inherit;
+}
+button {
+    border-color: #1f6f8b;
+    background: #1f6f8b;
+    color: #fff;
+    cursor: pointer;
+}
+button:disabled { cursor: wait; opacity: 0.6; }
+.status-message { margin-top: 12px; color: #5c6872; font-size: 14px; }
+.status-message.error { color: #b03a2e; }
+.result-summary,
+.model-overview-grid {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(120px, 1fr));
+    gap: 12px;
+    margin-bottom: 16px;
+}
+.result-summary div,
+.model-overview-grid div {
+    padding: 12px;
+    background: #f7f9fb;
+    border-radius: 6px;
+}
+.result-summary label,
+.model-overview-grid label {
+    display: block;
+    color: #77818a;
+    font-size: 12px;
+    margin-bottom: 5px;
+}
+.result-summary strong,
+.model-overview-grid strong { color: #1f3448; font-size: 18px; }
+.playback-video {
+    display: block;
+    width: min(100%, 800px);
+    max-height: 520px;
+    margin: 0 auto;
+    background: #111;
+    border-radius: 6px;
+}
+.chip-list { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 12px; }
+.chip-list span {
+    padding: 5px 9px;
+    background: #edf3f5;
+    color: #31505e;
+    border-radius: 4px;
+    font-size: 12px;
+}
+
 /* 全宽卡片 */
 .card:last-child { grid-column: 1 / -1; }
 
@@ -118,3 +217,12 @@ body {
 table { width: 100%; border-collapse: collapse; }
 th, td { padding: 8px; text-align: center; border-bottom: 1px solid #eee; }
 th { background: #fafafa; }
+
+@media (max-width: 900px) {
+    .container { grid-template-columns: 1fr; padding: 16px; }
+    .metrics-grid, .result-summary, .model-overview-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+    .playback-controls { grid-template-columns: 1fr; }
+    .main-nav { padding: 0 12px; overflow-x: auto; }
+}

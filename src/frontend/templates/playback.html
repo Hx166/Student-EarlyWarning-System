@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>视频回放 - 学生学业状态分析与预警系统</title>
+    <script src="/static/js/echarts.min.js"></script>
+    <link rel="stylesheet" href="/static/css/style.css">
+</head>
+<body>
+    <header class="topbar">
+        <h1>学生学业状态分析与预警系统</h1>
+        <span class="badge">回放演示</span>
+    </header>
+    <nav class="main-nav" aria-label="主导航">
+        <a href="/">实时看板</a>
+        <a class="active" href="/playback">视频回放</a>
+        <a href="/model">模型说明</a>
+    </nav>
+
+    <main class="container page-grid">
+        <section class="card wide-card">
+            <h2>DAiSEE 片段回放</h2>
+            <div class="playback-controls">
+                <label for="clip-select">选择片段</label>
+                <select id="clip-select" aria-label="选择回放片段">
+                    <option value="">正在加载片段...</option>
+                </select>
+                <button id="run-playback" type="button">运行回放</button>
+            </div>
+            <p id="playback-status" class="status-message">选择片段后开始运行。</p>
+        </section>
+
+        <section id="playback-result" class="card wide-card" hidden>
+            <h2>回放结果</h2>
+            <div class="result-summary">
+                <div><label>真实等级</label><strong id="true-level">--</strong></div>
+                <div><label>预测等级</label><strong id="pred-level">--</strong></div>
+                <div><label>置信度</label><strong id="pred-confidence">--</strong></div>
+                <div><label>处理耗时</label><strong id="pred-elapsed">--</strong></div>
+            </div>
+            <div id="playback-probabilities" class="probability-list"></div>
+        </section>
+
+        <section id="video-panel" class="card wide-card" hidden>
+            <h2>原始视频</h2>
+            <video id="playback-video" class="playback-video" controls preload="metadata"></video>
+            <p id="video-status" class="status-message"></p>
+        </section>
+
+        <section class="card wide-card">
+            <h2>逐秒趋势</h2>
+            <div id="playback-chart" class="chart"></div>
+        </section>
+    </main>
+    <script src="/static/js/demo.js"></script>
+</body>
+</html>
