@@ -22,6 +22,6 @@ defaults:
 prediction:
   enabled: true
   model_name: "xgboost"
-  model_version: "v1"
-  window_seconds: 30
-  min_records: 30
+  model_version: "engagement-v1"
+  window_seconds: 10
+  min_records: 10

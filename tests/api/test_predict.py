@@ -122,7 +122,7 @@ class PredictApiTest(unittest.TestCase):
         payload = res.get_json()
         self.assertEqual(payload["code"], 0)
         self.assertEqual(payload["data"]["name"], "xgboost")
-        self.assertEqual(payload["data"]["version"], "v1")
+        self.assertEqual(payload["data"]["version"], "engagement-v1")
         self.assertTrue(payload["data"]["loaded"])
 
 

@@ -70,6 +70,7 @@ def get_risk_predictor() -> RiskPredictor:
         _risk_predictor = RiskPredictor(
             registry=get_model_registry(),
             model_name=get_model_name(),
+            model_version=get_model_version(),
         )
     return _risk_predictor
 

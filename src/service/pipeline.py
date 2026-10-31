@@ -91,6 +91,7 @@ class PipelineService:
         self._last_warning_at: dict = {}
         # 行为事件跟踪器
         self.behavior_tracker = BehaviorEventTracker()
+        self._recent_behaviors: list[dict] = []
         # 后端精确 FPS 统计
         self._fps = 0.0
         self._fps_window_frames = 0
@@ -98,11 +99,13 @@ class PipelineService:
         # 实时预测接线（可配置开关，默认开启）
         pred_cfg = get_system().get("prediction", {})
         self.prediction_service: Optional[PredictionService] = None
+        self._last_prediction: Optional[dict] = None
         if bool(pred_cfg.get("enabled", True)):
             self.prediction_service = PredictionService(
                 model_name=str(pred_cfg.get("model_name", "xgboost")),
                 window_seconds=int(pred_cfg.get("window_seconds", 30)),
                 min_records=int(pred_cfg.get("min_records", 30)),
+                model_version=pred_cfg.get("model_version"),
             )
 
     def process_one(self) -> Optional[Frame]:
@@ -229,6 +232,14 @@ class PipelineService:
         """
         events = self.behavior_tracker.update(cv_result, datetime.now())
         for event in events:
+            self._recent_behaviors.append(
+                {
+                    "behavior_type": event.behavior_type,
+                    "start_time": event.start_time.isoformat() if event.start_time else None,
+                    "end_time": event.end_time.isoformat() if event.end_time else None,
+                    "duration": event.duration,
+                }
+            )
             self.db.insert_behavior(
                 student_id=self.student_id,
                 session_id=self.session_id,
@@ -322,16 +333,28 @@ class PipelineService:
         """
         if self.prediction_service is None:
             return
-        result = self.prediction_service.predict(state_record)
+        result = self.prediction_service.predict(
+            state_record, behavior_records=self._recent_behaviors
+        )
         if result is None:
             return
+        is_engagement = result.risk_label.startswith("level_")
+        logged_level = result.risk_label if is_engagement else result.risk_level
+        self._last_prediction = {
+            "record_time": state_record.get("record_time"),
+            "model_name": self.prediction_service.model_name,
+            "model_version": result.model_version,
+            "level": result.risk_label,
+            "probability": result.risk_probability,
+            "probabilities": self.prediction_service.last_probabilities,
+        }
 
         self.db.insert_prediction(
             student_id=self.student_id,
             session_id=self.session_id,
             risk_label=result.risk_label,
             risk_probability=result.risk_probability,
-            risk_level=result.risk_level,
+            risk_level=logged_level,
             model_version=result.model_version,
         )
         logger.info(
@@ -340,7 +363,7 @@ class PipelineService:
         )
 
         # 风险等级为 warning / high_risk 时额外写入 WarningLog 触发在线预警
-        if result.risk_level in ("warning", "high_risk"):
+        if not is_engagement and result.risk_level in ("warning", "high_risk"):
             level = "high" if result.risk_level == "high_risk" else "medium"
             self.db.insert_warning(
                 student_id=self.student_id,
@@ -373,6 +396,13 @@ class PipelineService:
             最近统计的 FPS 值。
         """
         return self._fps
+
+    @property
+    def last_prediction(self) -> Optional[dict]:
+        """返回最近一次模型预测的只读快照。"""
+        if self._last_prediction is None:
+            return None
+        return dict(self._last_prediction)
 
     def run(self, max_frames: Optional[int] = None) -> int:
         """运行主循环。

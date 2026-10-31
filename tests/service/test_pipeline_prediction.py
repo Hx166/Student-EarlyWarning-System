@@ -52,6 +52,21 @@ class StubRiskModel:
         return [self._level] * len(X)
 
 
+class EngagementStubModel(StubRiskModel):
+    """返回 Level 3 的 Engagement 桩模型。"""
+
+    label_mapping = {
+        0: "level_0",
+        1: "level_1",
+        2: "level_2",
+        3: "level_3",
+    }
+
+    def __init__(self) -> None:
+        """使用 Level 3、0.8 概率与旧风险等级 high_risk 初始化。"""
+        super().__init__(label=3, proba=0.8, level="high_risk")
+
+
 class _FakeDb:
     """记录调用的简化数据库桩。"""
 
@@ -118,6 +133,27 @@ class PipelinePredictionTest(unittest.TestCase):
         self.assertEqual(self.db.predictions[0]["risk_level"], "high_risk")
         self.assertEqual(self.db.warnings[0]["warning_type"], "model_prediction")
         self.assertEqual(self.db.warnings[0]["warning_level"], "high")
+
+    def test_engagement_writes_level_without_warning(self):
+        """Engagement 结果应写入 level_* 且不触发模型风险预警。"""
+        registry = ModelRegistry()
+        registry.register("xgboost", EngagementStubModel())
+        self.pipeline.prediction_service = PredictionService(
+            registry=registry,
+            min_records=1,
+            window_seconds=10,
+            model_version="engagement-v1",
+        )
+        self.pipeline._maybe_predict(_state_record())
+
+        self.assertEqual(len(self.db.predictions), 1)
+        self.assertEqual(self.db.predictions[0]["risk_label"], "level_3")
+        self.assertEqual(self.db.predictions[0]["risk_level"], "level_3")
+        self.assertEqual(self.db.warnings, [])
+        self.assertEqual(self.pipeline.last_prediction["level"], "level_3")
+        self.assertEqual(
+            self.pipeline.last_prediction["probabilities"]["level_3"], 0.8
+        )
 
 
 if __name__ == "__main__":

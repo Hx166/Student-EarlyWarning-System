@@ -50,7 +50,22 @@ def predict():
     except RuntimeError as exc:
         return jsonify({"code": 1, "data": None, "message": f"模型不可用: {exc}"}), 503
 
+    if result.risk_label.startswith("level_"):
+        result.risk_level = result.risk_label
     return jsonify({"code": 0, "data": result.to_dict(), "message": "ok"})
+
+
+@bp.route("/prediction/latest")
+def latest_prediction():
+    """返回当前运行时最近一次 Engagement 预测。"""
+    from src.api.app import pipeline_service
+
+    data = (
+        getattr(pipeline_service, "last_prediction", None)
+        if pipeline_service is not None
+        else None
+    )
+    return jsonify({"code": 0, "data": data, "message": "ok"})
 
 
 @bp.route("/predictions")
@@ -83,4 +98,6 @@ def model_info():
     registry = get_model_registry()
     version = get_model_version()
     status = registry.check_model(get_model_name(), version=version)
+    metadata = status.get("metadata") or {}
+    status["label_mapping"] = metadata.get("label_mapping", {})
     return jsonify({"code": 0, "data": status, "message": "ok"})

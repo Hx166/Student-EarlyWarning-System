@@ -33,6 +33,36 @@ function renderMetrics(latest) {
     document.getElementById("m-engagement").textContent = fmt(latest.attention_score, 1);
 }
 
+function renderModelPrediction(prediction) {
+    const levelNames = {
+        level_0: "很低",
+        level_1: "较低",
+        level_2: "较高",
+        level_3: "很高",
+    };
+    const unavailable = !prediction || !levelNames[prediction.level];
+    document.getElementById("model-level").textContent = unavailable
+        ? "模型未就绪"
+        : levelNames[prediction.level];
+    document.getElementById("model-confidence").textContent = unavailable
+        ? "--"
+        : `${fmt(Number(prediction.probability) * 100, 1)}%`;
+    document.getElementById("model-version").textContent =
+        prediction?.model_version || "--";
+
+    const probabilities = prediction?.probabilities || {};
+    document.getElementById("model-probabilities").innerHTML =
+        Object.entries(levelNames).map(([level, name]) => {
+            const value = Number(probabilities[level] || 0);
+            const width = Math.max(0, Math.min(100, value * 100));
+            return `<div class="probability-row">
+                <span>${name}</span>
+                <div class="probability-track"><div class="probability-bar" style="width:${width}%"></div></div>
+                <span>${fmt(value * 100, 1)}%</span>
+            </div>`;
+        }).join("");
+}
+
 // \u66f4\u65b0\u9884\u8b66\u5217\u8868
 function renderWarnings(warnings) {
     const body = document.querySelector("#warning-table tbody");
@@ -77,10 +107,11 @@ async function fetchJson(url) {
 // \u4e3b\u5237\u65b0\u6d41\u7a0b
 async function refresh() {
     try {
-        const [statePayload, warningPayload, fpsPayload] = await Promise.all([
+        const [statePayload, warningPayload, fpsPayload, predictionPayload] = await Promise.all([
             fetchJson("/api/state?limit=50"),
             fetchJson("/api/warnings?limit=20"),
             fetchJson("/api/metrics/fps"),
+            fetchJson("/api/prediction/latest").catch(() => ({ code: 1, data: null })),
         ]);
 
         if (statePayload.code === 0) {
@@ -103,6 +134,10 @@ async function refresh() {
         if (warningPayload.code === 0) {
             renderWarnings(warningPayload.data || []);
         }
+
+        renderModelPrediction(
+            predictionPayload.code === 0 ? predictionPayload.data : null
+        );
 
         document.getElementById("health-status").className = "badge ok";
         document.getElementById("health-status").textContent = "\u5728\u7ebf";

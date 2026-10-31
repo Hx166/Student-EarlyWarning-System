@@ -74,8 +74,28 @@ class RiskPredictor:
         """
         if features is None or len(features) != 1:
             raise ValueError("RiskPredictor.predict 要求单行特征数据")
-        results = self.predict_batch(features)
-        return results[0]
+        result, _ = self.predict_with_proba(features)
+        return result
+
+    def predict_with_proba(
+        self, features: pd.DataFrame
+    ) -> tuple[RiskPredictionResult, np.ndarray]:
+        """对单行特征预测，并同时返回四类概率。
+
+        Args:
+            features: Feature Engineering 输出的单行特征 DataFrame。
+
+        Returns:
+            单行预测结果与形状为 ``(4,)`` 的概率数组。
+
+        Raises:
+            ValueError: 输入为空、缺列、包含 label 或不是单行。
+            RuntimeError: 模型不存在或未加载。
+        """
+        if features is None or len(features) != 1:
+            raise ValueError("RiskPredictor.predict_with_proba 要求单行特征数据")
+        results, probabilities = self._predict_batch_with_proba(features)
+        return results[0], probabilities[0]
 
     def predict_batch(self, features: pd.DataFrame) -> List[RiskPredictionResult]:
         """对多行特征进行批量风险预测。
@@ -90,6 +110,13 @@ class RiskPredictor:
             ValueError: 输入为空、缺列、包含 label 或类型不正确。
             RuntimeError: 模型不存在或未加载。
         """
+        results, _ = self._predict_batch_with_proba(features)
+        return results
+
+    def _predict_batch_with_proba(
+        self, features: pd.DataFrame
+    ) -> tuple[List[RiskPredictionResult], np.ndarray]:
+        """批量预测并返回结果及概率矩阵。"""
         X_df = self._validate_features(features)
         model = self._get_model()
 
@@ -110,7 +137,7 @@ class RiskPredictor:
                     model_version=self.model_version or "v1",
                 )
             )
-        return results
+        return results, proba
 
     def _validate_features(self, df: pd.DataFrame) -> pd.DataFrame:
         """校验并规整特征输入。

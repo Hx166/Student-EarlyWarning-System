@@ -70,15 +70,23 @@
 - 加权模型 macro-F1 0.2797，但 accuracy 降至 0.4613，未作为默认模型保存。
 - 性能门槛“Test accuracy 高于多数类基线”未通过，按 R9 交付基线，不调低标准。
 
+### 阶段 F 完成（2026-10-31）
+
+- 运行时接入 `engagement-v1`：`configs/system.yaml` 版本、10 秒窗口、10 条记录。
+- `PredictionService` 支持模型版本与行为事件；`RiskPredictor` 新增 `predict_with_proba`；`PipelineService` 暴露 `last_prediction`，Engagement 写入 `level_*` 且不触发风险预警。
+- 新增 `GET /api/prediction/latest`；`/api/model/info` 增加 `label_mapping`；`/api/predict` 返回 level。
+- 前端新增“模型参与度”卡片：等级、置信度、四类概率条、模型版本。
+- 3 条片段训练侧/在线侧/特征表最大差异 1.42e-14（`scripts/verify_feature_parity.py`）。
+- 报告 `docs/05-机器学习/阶段F集成报告.md`；API/Service 测试 40 项（本会话 38 通过、2 项临时目录权限未执行）。
+
 ### 已确认阻塞
 
-- 训练片段 10 秒与在线 30 秒窗口不一致，需在集成前统一。
 - Level 0 仅 61 条（Test 4 条），该类指标不可靠。
-- 模型 Test accuracy 与多数类基线持平，阶段 F 只能按“基线模型”接入。
+- 模型 Test accuracy 与多数类基线持平，演示按“基线模型”标注。
 
 ### 本阶段计划（验收 2026-11-30）
 
-- 阶段 F 模型集成、阶段 G 摄像头与回放演示（v1.1.0）。
+- 阶段 G 完整演示系统（实时看板、视频回放、模型说明）与演示手册（v1.1.0）。
 
 ---
 

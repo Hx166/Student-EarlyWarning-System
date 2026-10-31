@@ -70,6 +70,46 @@ body {
     color: #2c3e50;
 }
 
+/* 模型参与度 */
+.model-summary {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 12px;
+    margin-bottom: 14px;
+}
+.model-summary label {
+    display: block;
+    font-size: 12px;
+    color: #888;
+    margin-bottom: 6px;
+}
+.model-summary strong {
+    color: #2c3e50;
+    font-size: 20px;
+}
+.model-summary span { font-size: 16px; font-weight: 600; }
+.probability-list { display: grid; gap: 7px; }
+.probability-row {
+    display: grid;
+    grid-template-columns: 40px 1fr 52px;
+    align-items: center;
+    gap: 8px;
+    font-size: 12px;
+    color: #666;
+}
+.probability-track {
+    height: 8px;
+    overflow: hidden;
+    background: #edf0f3;
+    border-radius: 4px;
+}
+.probability-bar {
+    height: 100%;
+    background: #3498db;
+    border-radius: 4px;
+    transition: width 0.25s ease;
+}
+
 /* 全宽卡片 */
 .card:last-child { grid-column: 1 / -1; }
 
