@@ -60,15 +60,25 @@
 - 异常：31 条 Test 片段实际 EOF 为 293/294/296 帧（文件头 300），按实际可解码帧记录；1 条 288 帧 Validation 片段无标签，未进入特征表。
 - 前置小修完成：`stage_c_features.py` 统一 A 口径与 `--mode all`，`training.target=engagement`。
 
+### 阶段 E 完成（2026-10-31）
+
+- 新增 `src/models/labels.py`：Engagement 独立映射 `level_0`–`level_3`，不复用风险 `LABEL_MAPPING`。
+- 新增 `scripts/train_engagement.py`：训练、评估、多数类基线、类别加权、消融、模型注册与加载验证。
+- 模型 `models/xgboost/engagement-v1/`（6 个文件，含 metrics.json）；产物在 `outputs/stage_e/`。
+- 报告 `docs/05-机器学习/阶段E训练评估.md`；测试 `tests/model/test_engagement_{labels,training}.py`（6 项）。
+- 结果：Test accuracy 0.4944（=多数类基线），macro-F1 0.2581、weighted-F1 0.4827、AUC 0.6351；Level 0（n=4）全部误判；9 特征消融在 Test 全指标下降。
+- 加权模型 macro-F1 0.2797，但 accuracy 降至 0.4613，未作为默认模型保存。
+- 性能门槛“Test accuracy 高于多数类基线”未通过，按 R9 交付基线，不调低标准。
+
 ### 已确认阻塞
 
-- 离线特征 `label` 为字符串，`XGBoostModel.fit` 只接受整型标签，缺 Engagement 独立映射。
 - 训练片段 10 秒与在线 30 秒窗口不一致，需在集成前统一。
 - Level 0 仅 61 条（Test 4 条），该类指标不可靠。
+- 模型 Test accuracy 与多数类基线持平，阶段 F 只能按“基线模型”接入。
 
 ### 本阶段计划（验收 2026-11-30）
 
-- 阶段 E 四分类训练与消融、阶段 F 模型集成、阶段 G 摄像头与回放演示（v1.1.0）。
+- 阶段 F 模型集成、阶段 G 摄像头与回放演示（v1.1.0）。
 
 ---
 
